@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "197559293849",
+    "firebase_url": "https://jlearn-a9988.firebaseio.com",
+    "project_id": "jlearn-a9988",
+    "storage_bucket": "jlearn-a9988.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197559293849:android:bdd9610ab2e8471d",
+        "android_client_info": {
+          "package_name": "com.jlearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197559293849-lkc6odhofgidrcuf5ud7kb0iho2hp8hk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw1SfsPCpZWhAktTYxo1Q1TD0KGdrUgzo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
