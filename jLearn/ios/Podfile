@@ -6,18 +6,9 @@ target 'jLearn' do
   # use_frameworks!
 
   # Pods for jLearn
-  pod 'React', :path => '../node_modules/react-native', :subspecs => [
-  'RCTLinkingIOS',
-]
-
-  target 'jLearn-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-    pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-  end
-
-
+  platform :ios, '9.0'
+  pod 'Firebase/Core', '~> 5.15.0'
+   
   target 'jLearnTests' do
     inherit! :search_paths
     # Pods for testing
@@ -31,10 +22,9 @@ target 'jLearn-tvOS' do
 
   # Pods for jLearn-tvOS
 
-  # target 'jLearn-tvOSTests' do
-  #   inherit! :search_paths
-  #   # Pods for testing
-  # end
+  target 'jLearn-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
 
 end
-
