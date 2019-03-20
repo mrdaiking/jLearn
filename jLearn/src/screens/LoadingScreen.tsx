@@ -7,7 +7,7 @@ import * as React from "react";
 import { View, Text, ActivityIndicator, StatusBar } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload } from "react-navigation";
 import { connect } from "react-redux";
-
+import firebase from 'react-native-firebase';
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
@@ -37,22 +37,19 @@ class LoadingScreen extends React.Component<Props, State> {
         this.state = {
             isLoading: false
         }
-        this.onLoggIn();
     }
 
-    onLoggIn = () => {
-        // setTimeout(() => {
-        //     this.setState({
-        //         isLoading: true
-        //     })
-        // }, 10000);
-        this.props.navigation.navigate(true ? 'App' : 'Auth');
+    componentDidMount() {
+        firebase.auth().onAuthStateChanged(user => {
+            this.props.navigation.navigate(user ? 'App' : 'Auth')
+        })
     }
 
     render() {
         return (
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <ActivityIndicator />
+                <Text>Loading...</Text>
+                <ActivityIndicator size="large" />
                 <StatusBar barStyle="default" />
             </View>
         );

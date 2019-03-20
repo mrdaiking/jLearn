@@ -13,8 +13,17 @@ import DetailScreen from "../screens/DetailScreen";
 import OptionsScreen from "../screens/OptionsScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import SignInScreen from "../screens/SignInScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 
-const AuthStack = createStackNavigator({ SignInScreen })
+const AuthStack = createStackNavigator(
+    {
+        SignInScreen,
+        RegisterScreen
+    },
+    {
+        headerMode: 'none'
+    }
+)
 const HomeStack = createStackNavigator({ DetailScreen, HomeScreen, OptionsScreen });
 // const MainTabs = createBottomTabNavigator({ HomeStack, SettingsScreen });
 const MainNavigator = createBottomTabNavigator({ HomeStack, SettingsScreen });
@@ -31,7 +40,7 @@ const RootSwitch = createSwitchNavigator({
     App: MainNavigator,
     Auth: AuthStack
 },
-    { initialRouteName: "AuthLoading" }
+    { initialRouteName: "Auth" }
 );
 export default createAppContainer(RootSwitch);
 
