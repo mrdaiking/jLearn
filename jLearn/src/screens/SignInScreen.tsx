@@ -75,12 +75,16 @@ class SignInScreen extends React.Component<Props, State> {
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
                 />
-                <AwesomeButton
-                    buttonColor="#8A2BE2"
-                    fontSize={19}
-                    title={"Login"}
-                    _onPressFunc={this.handleLogin}
-                />
+                <View style={styles.buttonContainer}>
+                    <AwesomeButton
+
+                        buttonColor="#8A2BE2"
+                        fontSize={19}
+                        title={"Login"}
+                        _onPressFunc={this.handleLogin}
+                    />
+                </View>
+
                 <Button
                     title="Don't have an account? Sign Up"
                     onPress={() => this.props.navigation.navigate('RegisterScreen')}
@@ -102,6 +106,10 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         marginTop: 8
+    },
+    buttonContainer: {
+        width: "100%",
+        paddingHorizontal: 15
     }
 })
 
