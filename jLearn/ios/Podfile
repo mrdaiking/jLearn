@@ -11,6 +11,8 @@ target 'jLearn' do
   pod 'Firebase/Auth', '~> 5.15.0'
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'jLearnTests' do
     inherit! :search_paths
     # Pods for testing
