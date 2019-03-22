@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import AwesomeButton from "../components/AwesomeButton";
 import LinearGradient from "react-native-linear-gradient";
+import CustomTextInput from "../components/CustomTextInput";
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
@@ -58,7 +59,10 @@ class AuthenticationScreen extends React.Component<Props, State> {
 
             <SafeAreaView style={styles.container}>
                 <View style={styles.logo}>
-                    <Text>LOGO</Text>
+                    <Text style={{ fontSize: 50 }}>LOGO</Text>
+                </View>
+                <View style={styles.labelPageContainer}>
+                    <Text style={styles.labelPage}>Login</Text>
                 </View>
                 <View style={styles.tabComponent}>
 
@@ -97,18 +101,48 @@ class AuthenticationScreen extends React.Component<Props, State> {
 
                     <View style={styles.form}>
                         <LinearGradient
-                            start={{ x: 0.0, y: 0.25 }} end={{ x: 0.5, y: 1.0 }}
-                            locations={[0, 0.5, 0.6]}
-                            colors={['#4c669f', '#3b5998', '#192f6a']}
+                            start={{ x: 1.0, y: 0.0 }} end={{ x: 0.0, y: 0.5 }}
+                            locations={[0, 1]}
+                            colors={['#C79FFF', '#AAAAFD']}
                             style={styles.linearGradient}>
-                            <Text style={styles.buttonText}>
-                                Sign in with Facebook
-                            </Text>
+                            <CustomTextInput
+                                label="Email"
+                                placeHolder="Your email..."
+                                iconName='email'
+                            />
+                            <CustomTextInput
+                                label="Password"
+                                placeHolder="Your password..."
+                                iconName="vpn-key"
+                            />
+                            <View style={styles.forgotButtonContainer}>
+                                <TouchableOpacity style={styles.forgotButton}>
+                                    <Text style={styles.forgotButtonText}>Forgot password?</Text>
+                                </TouchableOpacity>
+                            </View>
+
                         </LinearGradient>
+
                     </View>
+                    <View style={styles.loginButtonWraper}>
+                        <TouchableOpacity>
+                            <LinearGradient
+                                start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
+                                colors={['#AAAAFD', '#C79FFF',]}
+                                style={styles.loginButtonContainer}
+                            >
+                                <Text style={styles.loginButtonText}>Login</Text>
+                            </LinearGradient>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
+
                 <View style={styles.bottomView}>
-                    <Text>Text</Text>
+                    <Text>Don't have an account?</Text>
+                    <TouchableOpacity>
+                        <Text>SIGN UP</Text>
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         );
@@ -120,12 +154,65 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#C383DE"
+        backgroundColor: "#F8F8F8"
+    },
+    labelPageContainer: {
+        // height: 50,
+        width: "100%",
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+    labelPage: {
+        color: '#AAAAFD',
+        fontSize: 30,
+        fontWeight: 'bold',
+        textAlign: 'left'
     },
     linearGradient: {
-        paddingLeft: 15,
-        paddingRight: 15,
-        borderRadius: 5,
+        height: 300,
+        paddingHorizontal: 15,
+        paddingTop: 40,
+        borderRadius: 10,
+        borderColor: '#ddd',
+        borderBottomWidth: 0,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
+    },
+    forgotButtonContainer: {
+        width: "100%",
+        alignItems: 'flex-end'
+    },
+    forgotButton: {
+        height: 30,
+        width: 140,
+        backgroundColor: '#F8F8F8',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 5,
+        borderRadius: 15
+    },
+    forgotButtonText: {
+        color: '#1F2041'
+    },
+    loginButtonWraper: {
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    loginButtonContainer: {
+        height: 50,
+        width: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25
+    },
+    loginButtonText: {
+        color: '#FFFFFF',
+        fontSize: 20
     },
     buttonText: {
         fontSize: 20,
@@ -138,14 +225,13 @@ const styles = StyleSheet.create({
     logo: {
         flex: 1,
         width: "100%",
-        backgroundColor: "red",
+        backgroundColor: "#F8F8F8",
         justifyContent: "center",
         alignItems: "center"
     },
     tabComponent: {
         flex: 4,
         width: "100%",
-        backgroundColor: "blue",
     },
     groupButton: {
         flex: 2,
@@ -153,12 +239,14 @@ const styles = StyleSheet.create({
     },
     form: {
         flex: 5,
-        backgroundColor: "white"
+        padding: 20
     },
     bottomView: {
         flex: 1,
-        backgroundColor: "yellow",
-        width: "100%"
+        width: "100%",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     textInput: {
         height: 40,
