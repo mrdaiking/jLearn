@@ -55,6 +55,7 @@ class SignInScreen extends React.Component<Props, State> {
     render() {
         return (
             <View style={styles.container}>
+
                 <Text>Login</Text>
                 <Text style={{ color: 'red' }}>
                     {this.state.errorMessage}
@@ -78,7 +79,7 @@ class SignInScreen extends React.Component<Props, State> {
                 <View style={styles.buttonContainer}>
                     <AwesomeButton
 
-                        buttonColor="#8A2BE2"
+                        buttonColor="#FAFAFA"
                         fontSize={19}
                         title={"Login"}
                         _onPressFunc={this.handleLogin}
@@ -98,7 +99,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: "#C383DE"
     },
     textInput: {
         height: 40,
