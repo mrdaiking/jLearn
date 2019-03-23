@@ -10,6 +10,7 @@ import firebase from "react-native-firebase";
 import AwesomeButton from "../components/AwesomeButton";
 import LinearGradient from "react-native-linear-gradient";
 import CustomTextInput from "../components/CustomTextInput";
+import { widthPercentageToDP, heightPercentageToDP } from "../utils/responsive";
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
@@ -57,92 +58,58 @@ class AuthenticationScreen extends React.Component<Props, State> {
     render() {
         return (
 
-            <SafeAreaView style={styles.container}>
-                <View style={styles.logo}>
-                    <Text style={{ fontSize: 50 }}>LOGO</Text>
-                </View>
-                <View style={styles.labelPageContainer}>
-                    <Text style={styles.labelPage}>Login</Text>
-                </View>
-                <View style={styles.tabComponent}>
-
-                    {/* <Text style={{ color: 'red' }}>
-                        {this.state.errorMessage}
-                    </Text>
-
-                    <TextInput
-                        style={styles.textInput}
-                        autoCapitalize="none"
-                        placeholder="Email"
-                        onChangeText={email => this.setState({ email })}
-                        value={this.state.email}
-                    />
-                    <TextInput
-                        secureTextEntry
-                        style={styles.textInput}
-                        autoCapitalize="none"
-                        placeholder="Password"
-                        onChangeText={password => this.setState({ password })}
-                        value={this.state.password}
-                    />
-                    <View style={styles.buttonContainer}>
-                        <AwesomeButton
-                            buttonColor="#FAFAFA"
-                            fontSize={19}
-                            title={"Login"}
-                            _onPressFunc={this.handleLogin}
-                        />
+            <SafeAreaView style={styles.styleSafeAreaView}>
+                <View style={styles.container}>
+                    <View style={styles.logo}>
+                        <Text style={{ fontSize: 50 }}>LOGO</Text>
                     </View>
-
-                    <Button
-                        title="Don't have an account? Sign Up"
-                        onPress={() => this.props.navigation.navigate('RegisterScreen')}
-                    /> */}
-
-                    <View style={styles.form}>
+                    <View style={styles.labelPageContainer}>
+                        <Text style={styles.labelPage}>Login</Text>
+                    </View>
+                    <View style={styles.formContainer}>
                         <LinearGradient
                             start={{ x: 1.0, y: 0.0 }} end={{ x: 0.0, y: 0.5 }}
                             locations={[0, 1]}
-                            colors={['#C79FFF', '#AAAAFD']}
+                            colors={['#C34EF8', '#6558D7']}
                             style={styles.linearGradient}>
                             <CustomTextInput
+                                secureTextEntry={false}
                                 label="Email"
                                 placeHolder="Your email..."
                                 iconName='email'
+                                value={this.state.email}
                             />
                             <CustomTextInput
+                                secureTextEntry={true}
                                 label="Password"
                                 placeHolder="Your password..."
                                 iconName="vpn-key"
+                                value={this.state.password}
                             />
                             <View style={styles.forgotButtonContainer}>
                                 <TouchableOpacity style={styles.forgotButton}>
                                     <Text style={styles.forgotButtonText}>Forgot password?</Text>
                                 </TouchableOpacity>
                             </View>
-
                         </LinearGradient>
-
                     </View>
                     <View style={styles.loginButtonWraper}>
                         <TouchableOpacity>
                             <LinearGradient
                                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                                colors={['#AAAAFD', '#C79FFF',]}
+                                colors={['#6558D7', '#C34EF8',]}
                                 style={styles.loginButtonContainer}
                             >
                                 <Text style={styles.loginButtonText}>Login</Text>
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
-
-                </View>
-
-                <View style={styles.bottomView}>
-                    <Text>Don't have an account?</Text>
-                    <TouchableOpacity>
-                        <Text>SIGN UP</Text>
-                    </TouchableOpacity>
+                    <View style={styles.bottomView}>
+                        <Text>Don't have an account?</Text>
+                        <TouchableOpacity>
+                            <Text>SIGN UP</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </SafeAreaView>
         );
@@ -150,29 +117,44 @@ class AuthenticationScreen extends React.Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    styleSafeAreaView: {
         flex: 1,
+    },
+    container: {
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#F8F8F8"
     },
+    logo: {
+        height: heightPercentageToDP('15%'),
+        width: "100%",
+        backgroundColor: "#F8F8F8",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     labelPageContainer: {
-        // height: 50,
+        height: heightPercentageToDP('5%'),
         width: "100%",
         paddingHorizontal: 20,
         justifyContent: 'center',
         alignItems: 'flex-start'
     },
     labelPage: {
-        color: '#AAAAFD',
+        color: '#6558D7',
         fontSize: 30,
         fontWeight: 'bold',
         textAlign: 'left'
     },
+    formContainer: {
+        height: heightPercentageToDP('50%'),
+        width: "100%",
+        padding: 15
+    },
     linearGradient: {
-        height: 300,
-        paddingHorizontal: 15,
-        paddingTop: 40,
+        flex: 1,
+        // paddingHorizontal: 15,
+        // paddingTop: 40,
         borderRadius: 10,
         borderColor: '#ddd',
         borderBottomWidth: 0,
@@ -198,14 +180,10 @@ const styles = StyleSheet.create({
     forgotButtonText: {
         color: '#1F2041'
     },
-    loginButtonWraper: {
-        justifyContent: 'center',
-        alignItems: 'center',
 
-    },
     loginButtonContainer: {
         height: 50,
-        width: 200,
+        width: widthPercentageToDP('50%'),
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25
@@ -214,48 +192,29 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 20
     },
+    loginButtonWraper: {
+        height: heightPercentageToDP('15%'),
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
     buttonText: {
         fontSize: 20,
         fontFamily: 'Gill Sans',
         textAlign: 'center',
         color: '#ffffff',
-        margin: 10,
+        // margin: 10,
         opacity: 0.8
     },
-    logo: {
-        flex: 1,
-        width: "100%",
-        backgroundColor: "#F8F8F8",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    tabComponent: {
-        flex: 4,
-        width: "100%",
-    },
-    groupButton: {
-        flex: 2,
-        backgroundColor: "green"
-    },
-    form: {
-        flex: 5,
-        padding: 20
-    },
+
     bottomView: {
-        flex: 1,
+        height: heightPercentageToDP('15%'),
         width: "100%",
+        backgroundColor: 'red',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
-    textInput: {
-        height: 40,
-        width: '90%',
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginTop: 8
-    },
-
     buttonContainer: {
         width: "100%",
         paddingHorizontal: 15

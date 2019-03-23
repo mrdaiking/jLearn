@@ -2,19 +2,29 @@ import * as React from "react";
 import { useState } from "react";
 import { TouchableOpacity, Text, StyleSheet, TextInput, View } from "react-native";
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import { widthPercentageToDP, heightPercentageToDP, RF } from "../utils/responsive";
 interface Props {
     label: string,
     iconName: string,
     placeHolder: string,
-
+    secureTextEntry: boolean,
+    value: string,
+    setValueInput(value: string): void
 }
 
 export default function CustomTextInput(props: Props) {
-    const [errorMessage, setValue] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+    const [value, setValue] = useState('');
+    function onValueChange(value: string) {
+        setValue(value);
+        props.setValueInput(value);
+    }
     return (
         <View style={styles.container}>
             <View style={styles.textInputInfo}>
-                <Text style={styles.label}>{props.label}</Text>
+                <Text
+                    allowFontScaling={true}
+                    style={styles.label}>{props.label}</Text>
                 <IconMaterial
                     name={props.iconName}
                     size={20}
@@ -22,14 +32,14 @@ export default function CustomTextInput(props: Props) {
                 />
             </View>
             <TextInput
-                secureTextEntry
+                secureTextEntry={props.secureTextEntry}
                 style={styles.textInput}
                 autoCapitalize="none"
                 placeholder={props.placeHolder}
                 placeholderTextColor='#757575'
                 underlineColorAndroid='transparent'
-                // onChangeText={password => this.setState({ password })}
-                value={''}
+                onChangeText={(value) => { onValueChange(value) }}
+                value={value}
             />
             <Text style={styles.errorLabel}>{errorMessage}</Text>
         </View>
@@ -57,11 +67,11 @@ const styles = StyleSheet.create({
         marginTop: 5
     },
     textInput: {
-        color: '#FFFFFF',
+        color: '#000000',
         height: 50,
         padding: 15,
         backgroundColor: '#F0F1F4',
-        opacity: 0.2,
+        opacity: 0.8,
         borderRadius: 6,
         marginTop: 5
     }
