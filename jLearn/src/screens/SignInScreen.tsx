@@ -8,7 +8,7 @@ import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } f
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import AwesomeButton from "../components/AwesomeButton";
-import LinearGradient from "react-native-linear-gradient";
+// import LinearGradient from "react-native-linear-gradient";
 import CustomTextInput from "../components/CustomTextInput";
 import { widthPercentageToDP, heightPercentageToDP } from "../utils/responsive";
 interface BaseScreenProps {
@@ -67,7 +67,7 @@ class SignInScreen extends React.Component<Props, State> {
                         <Text style={styles.labelPage}>Login</Text>
                     </View>
                     <View style={styles.formContainer}>
-                        <LinearGradient
+                        {/* <LinearGradient
                             start={{ x: 1.0, y: 0.0 }} end={{ x: 0.0, y: 0.5 }}
                             locations={[0, 1]}
                             colors={['#C34EF8', '#6558D7']}
@@ -93,19 +93,19 @@ class SignInScreen extends React.Component<Props, State> {
                                     <Text style={styles.forgotButtonText}>Forgot password?</Text>
                                 </TouchableOpacity>
                             </View>
-                        </LinearGradient>
+                        </LinearGradient> */}
                     </View>
                     <View style={styles.loginButtonWraper}>
                         <TouchableOpacity
                             onPress={this.handleLogin}
                         >
-                            <LinearGradient
+                            {/* <LinearGradient
                                 start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                                 colors={['#6558D7', '#C34EF8',]}
                                 style={styles.loginButtonContainer}
                             >
                                 <Text style={styles.loginButtonText}>Login</Text>
-                            </LinearGradient>
+                            </LinearGradient> */}
                         </TouchableOpacity>
                     </View>
                     <View style={styles.bottomView}>

@@ -3,10 +3,11 @@
  * Date: 2019/03/18
  */
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
+// import console = require("console");
 interface BaseScreenProps {
 
 }
@@ -19,60 +20,91 @@ interface StateInjectedProps {
 
 }
 
-interface Props extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
+interface HomeScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
 
 }
 
-interface State {
-    isLoading: boolean
+interface HomeScreenState {
+    isLoading: boolean,
+    bunpoList: any[],
 }
 
-class HomeScreen extends React.Component<Props, State> {
-
-    constructor(props: Props) {
+class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
+    aref: any;
+    unsubscribe: any;
+    constructor(props: HomeScreenProps) {
         super(props);
-        const ref = firebase.firestore().collection('todos').doc('task');
-        console.log("REF....", ref);
+        this.aref = firebase.firestore().collection('bunpo_N3');
+        this.unsubscribe = null;
+        this.state = {
+            isLoading: false,
+            bunpoList: []
+        }
+        this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
+        this.addDocument = this.addDocument.bind(this);
     }
-    // conmponentDidMount() {
 
-    //     // firebase
-    //     //     .firestore()
-    //     //     .runTransaction(async transaction => {
-    //     //         const doc = await transaction.get(ref);
+    componentWillMount() {
+        console.log("AREF WILL", this.aref)
+    }
 
-    //     //         // if it does not exist set the population to one
-    //     //         if (!doc.exists) {
-    //     //             transaction.set(ref, { population: 1 });
-    //     //             // return the new value so we know what the new population is
-    //     //             return 1;
-    //     //         }
+    componentDidMount() {
+        console.log("AREF DID", this.aref);
+        this.unsubscribe = this.aref.onSnapshot(this.onCollectionUpdate);
+        console.log("UNSUBSCRIBE", this.unsubscribe)
+    }
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
 
-    //     //         // exists already so lets increment it + 1
-    //     //         const newPopulation = doc.data().population + 1;
+    onCollectionUpdate = (querySnapshot: any) => {
+        const bunpoList = [];
+        querySnapshot.forEach((doc: any) => {
+            console.log('DOC', doc.data());
+            // doc.ref.update({ userName: 'hihi' })
+            // const { title, complete } = doc.data();
+            // todos.push({
+            //     key: doc.id,
+            //     doc, // DocumentSnapshot
+            //     title,
+            //     complete,
+            // });
+        });
+        // this.setState({
+        //     todos,
+        //     loading: false,
+        // });
+    }
+    updateDocument = () => {
 
-    //     //         transaction.update(ref, {
-    //     //             population: newPopulation,
-    //     //         });
+    }
 
-    //     //         // return the new value so we know what the new population is
-    //     //         return newPopulation;
-    //     //     })
-    //     //     .then(newPopulation => {
-    //     //         console.log(
-    //     //             `Transaction successfully committed and new population is '${newPopulation}'.`
-    //     //         );
-    //     //     })
-    //     //     .catch(error => {
-    //     //         console.log('Transaction failed: ', error);
-    //     //     });
-    // }
+    addDocument = () => {
+        this.aref.add({
+            head: {
+                verbs: {
+                    masu: true,
+                    te: false
+                }
+            },
+            main: "ように",
+            tail: ["しない", "する"]
+        })
+    }
+
     render() {
+        console.log("AREF DID", this.aref)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
                     <Text>Home Screen</Text>
+                    <TouchableOpacity
+                        onPress={() => this.addDocument()}
+                    >
+                        <Text>Add</Text>
+                    </TouchableOpacity>
                 </View>
+
             </SafeAreaView >
         );
     }
