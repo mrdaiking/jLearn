@@ -8,27 +8,29 @@ import { View, Text, ActivityIndicator, StatusBar } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload } from "react-navigation";
 import { connect } from "react-redux";
 import firebase from 'react-native-firebase';
+import { AuthenticationState } from "../models/interface";
+import { AppState } from "../../app/store";
+
+// import console = require("console");
+interface AppProps {
+    authentication: AuthenticationState
+}
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
 interface DispatchInjectedProps {
-
 }
 
 interface StateInjectedProps {
 
 }
 
-interface Props extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
-
-}
+interface Props extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps, AppProps { }
 
 interface State {
     isLoading: boolean
 }
-
-
 
 class LoadingScreen extends React.Component<Props, State> {
 
@@ -40,7 +42,9 @@ class LoadingScreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        console.log("---SESSION---LOG---", this.props.authentication.user)
         firebase.auth().onAuthStateChanged(user => {
+            console.log("---SESSION---LOG-FIREBASE---", user)
             this.props.navigation.navigate(user ? 'App' : 'Auth')
         })
     }
@@ -56,4 +60,10 @@ class LoadingScreen extends React.Component<Props, State> {
     }
 }
 
-export default connect(null, null)(LoadingScreen);
+const mapStateToProps = (state: AppState) => ({
+    authentication: state.session
+});
+
+
+
+export default connect(mapStateToProps, null)(LoadingScreen);

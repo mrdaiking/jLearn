@@ -42,6 +42,7 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
         }
         this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
         this.addDocument = this.addDocument.bind(this);
+        this.signOut = this.signOut.bind(this);
     }
 
     componentWillMount() {
@@ -56,7 +57,13 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     componentWillUnmount() {
         this.unsubscribe();
     }
-
+    signOut = () => {
+        firebase.auth().signOut().then((result) => {
+            console.log("RESULt LOGGOUT", result)
+        }).catch(error => {
+            console.log("ERROR LOGOUT", error)
+        })
+    }
     onCollectionUpdate = (querySnapshot: any) => {
         const bunpoList = [];
         querySnapshot.forEach((doc: any) => {
@@ -102,6 +109,11 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
                         onPress={() => this.addDocument()}
                     >
                         <Text>Add</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.signOut()}
+                    >
+                        <Text>SIGNOUT</Text>
                     </TouchableOpacity>
                 </View>
 

@@ -6,17 +6,18 @@ import * as React from "react";
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
-import firebase from "react-native-firebase";
-import AwesomeButton from "../components/AwesomeButton";
-// import LinearGradient from "react-native-linear-gradient";
-import CustomTextInput from "../components/CustomTextInput";
-import { widthPercentageToDP, heightPercentageToDP } from "../utils/responsive";
+import { CustomTextInput } from "../components";
+import { widthPercentageToDP, heightPercentageToDP } from "../../app/utils/responsive";
+import { thunkLogginWithEmailAndPassword } from "../store/thunk";
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
 interface DispatchInjectedProps {
-
+    // loginWithEmailAndPassword: typeof loginWithEmailAndPassword;
+    loginWithEmailAndPassword: typeof thunkLogginWithEmailAndPassword
 }
 
 interface StateInjectedProps {
@@ -48,11 +49,14 @@ class SignInScreen extends React.Component<Props, State> {
     handleLogin = () => {
         //TODO: handle login
         const { email, password } = this.state
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('App'))
-            .catch(error => this.setState({ errorMessage: error.message }))
+        // firebase
+        //     .auth()
+        //     .signInWithEmailAndPassword(email, password)
+        //     .then(() => this.props.navigation.navigate('App'))
+        //     .catch(error => this.setState({ errorMessage: error.message }))
+
+        // this.props.loginWithEmailAndPassword(email, password);
+        this.props.loginWithEmailAndPassword(email, password);
     }
 
     render() {
@@ -67,45 +71,34 @@ class SignInScreen extends React.Component<Props, State> {
                         <Text style={styles.labelPage}>Login</Text>
                     </View>
                     <View style={styles.formContainer}>
-                        {/* <LinearGradient
-                            start={{ x: 1.0, y: 0.0 }} end={{ x: 0.0, y: 0.5 }}
-                            locations={[0, 1]}
-                            colors={['#C34EF8', '#6558D7']}
-                            style={styles.linearGradient}>
-                            <CustomTextInput
-                                secureTextEntry={false}
-                                label="Email"
-                                placeHolder="Your email..."
-                                iconName='email'
-                                value={this.state.email}
-                                setValueInput={(email: string) => this.setState({ email })}
-                            />
-                            <CustomTextInput
-                                secureTextEntry={true}
-                                label="Password"
-                                placeHolder="Your password..."
-                                iconName="vpn-key"
-                                value={this.state.password}
-                                setValueInput={(password: string) => this.setState({ password })}
-                            />
-                            <View style={styles.forgotButtonContainer}>
-                                <TouchableOpacity style={styles.forgotButton}>
-                                    <Text style={styles.forgotButtonText}>Forgot password?</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </LinearGradient> */}
+                        <CustomTextInput
+                            secureTextEntry={false}
+                            label="Email"
+                            placeHolder="Your email..."
+                            iconName='email'
+                            value={this.state.email}
+                            setValueInput={(email: string) => this.setState({ email })}
+                        />
+                        <CustomTextInput
+                            secureTextEntry={true}
+                            label="Password"
+                            placeHolder="Your password..."
+                            iconName="vpn-key"
+                            value={this.state.password}
+                            setValueInput={(password: string) => this.setState({ password })}
+                        />
+                        <View style={styles.forgotButtonContainer}>
+                            <TouchableOpacity style={styles.forgotButton}>
+                                <Text style={styles.forgotButtonText}>Forgot password?</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.loginButtonWraper}>
                         <TouchableOpacity
                             onPress={this.handleLogin}
+                            style={styles.button}
                         >
-                            {/* <LinearGradient
-                                start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
-                                colors={['#6558D7', '#C34EF8',]}
-                                style={styles.loginButtonContainer}
-                            >
-                                <Text style={styles.loginButtonText}>Login</Text>
-                            </LinearGradient> */}
+                            <Text style={styles.loginButtonText}>Login</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.bottomView}>
@@ -119,6 +112,9 @@ class SignInScreen extends React.Component<Props, State> {
         );
     }
 }
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({
+    loginWithEmailAndPassword: bindActionCreators(thunkLogginWithEmailAndPassword, dispatch),
+});
 
 const styles = StyleSheet.create({
     styleSafeAreaView: {
@@ -199,7 +195,10 @@ const styles = StyleSheet.create({
         height: heightPercentageToDP('15%'),
         justifyContent: 'center',
         alignItems: 'center',
-
+    },
+    button: {
+        width: '100%',
+        backgroundColor: 'green'
     },
     buttonText: {
         fontSize: 20,
@@ -223,4 +222,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null, null)(SignInScreen);
+export default connect(null, mapDispatchToProps)(SignInScreen);

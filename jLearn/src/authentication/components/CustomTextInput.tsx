@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { TouchableOpacity, Text, StyleSheet, TextInput, View } from "react-native";
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
-import { widthPercentageToDP, heightPercentageToDP, RF } from "../utils/responsive";
+import { widthPercentageToDP, heightPercentageToDP, RF } from "../../app/utils/responsive";
 interface Props {
     label: string,
     iconName: string,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 19,
-        color: '#FFFFFF',
+        color: '#000000',
         fontFamily: 'Arial'
     },
     errorLabel: {
