@@ -10,7 +10,8 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import io.invertase.firebase.auth.RNFirebaseAuthPackage; // <-- Add this line
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNFirebasePackage(), new VectorIconsPackage(),
-          new RNGestureHandlerPackage(), new RNFirebaseAuthPackage());
+          new RNGestureHandlerPackage(), new RNFirebaseAuthPackage(), new RNFirebaseFirestorePackage());
     }
 
     @Override
