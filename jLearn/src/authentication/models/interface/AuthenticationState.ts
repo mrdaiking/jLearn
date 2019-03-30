@@ -1,8 +1,8 @@
 import { UserModel } from "./UserModel";
 interface AuthenticationState {
     loggedIn: boolean;
-    user?: UserModel;
-    isLoading: boolean
+    user?: any;
+    isLoading: boolean;
 }
 export { AuthenticationState };
 

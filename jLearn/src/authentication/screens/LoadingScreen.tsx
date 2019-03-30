@@ -10,16 +10,20 @@ import { connect } from "react-redux";
 import firebase from 'react-native-firebase';
 import { AuthenticationState } from "../models/interface";
 import { AppState } from "../../app/store";
-
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { thunkCheckLoggedIn } from '../store/thunk';
 // import console = require("console");
 interface AppProps {
-    authentication: AuthenticationState
+    authentication: AuthenticationState,
+
 }
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
 interface DispatchInjectedProps {
+    checkLoggedIn: typeof thunkCheckLoggedIn
 }
 
 interface StateInjectedProps {
@@ -39,17 +43,21 @@ class LoadingScreen extends React.Component<Props, State> {
         this.state = {
             isLoading: false
         }
+        this.checkLoggedIn = this.checkLoggedIn.bind(this);
     }
 
     componentDidMount() {
+        this.checkLoggedIn();
         console.log("---SESSION---LOG---", this.props.authentication.user)
-        firebase.auth().onAuthStateChanged(user => {
-            console.log("---SESSION---LOG-FIREBASE---", user)
-            this.props.navigation.navigate(user ? 'App' : 'Auth')
-        })
+    }
+
+    checkLoggedIn = async () => {
+        await this.props.checkLoggedIn();
+        this.props.navigation.navigate(this.props.authentication.user ? 'App' : 'Auth')
     }
 
     render() {
+        console.log("--SHOULD-UPDATE-PROPS-", this.props.authentication)
         return (
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 <Text>Loading...</Text>
@@ -61,9 +69,11 @@ class LoadingScreen extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    authentication: state.session
+    authentication: state.session,
+});
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({
+    checkLoggedIn: bindActionCreators(thunkCheckLoggedIn, dispatch),
 });
 
 
-
-export default connect(mapStateToProps, null)(LoadingScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);

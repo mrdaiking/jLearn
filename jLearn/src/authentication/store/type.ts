@@ -1,7 +1,15 @@
-import { REGISTER, LOGIN_ACTION_REQUEST, LOGIN_ACTION_SUCCESS, LOGIN_ACTION_FAILURE } from "./actionContants";
+import {
+    REGISTER_ACTION_REQUEST,
+    LOGIN_ACTION_REQUEST,
+    LOGIN_ACTION_SUCCESS,
+    LOGIN_ACTION_FAILURE,
+    CHECK_LOGGED_IN_ACTION_REQUEST,
+    CHECK_LOGGED_IN_ACTION_SUCCESS,
+    CHECK_LOGGED_IN_ACTION_FAILURE
+} from "./actionContants";
 import { UserRegister, UserLogin } from "../models/request";
 interface RegisterAccount {
-    type: typeof REGISTER;
+    type: typeof REGISTER_ACTION_REQUEST;
     payload: UserRegister
 }
 interface LoginActionsRequest {
@@ -10,9 +18,27 @@ interface LoginActionsRequest {
 }
 interface LoginActionsSuccess {
     type: typeof LOGIN_ACTION_SUCCESS;
+    payload: any
 }
 interface LoginActionsFailure {
     type: typeof LOGIN_ACTION_FAILURE;
 }
 
-export type AuthenticationActionTypes = RegisterAccount | LoginActionsRequest | LoginActionsSuccess | LoginActionsFailure;
+interface CheckLoggedInRequest {
+    type: typeof CHECK_LOGGED_IN_ACTION_REQUEST
+}
+interface CheckLoggedInSuccess {
+    type: typeof CHECK_LOGGED_IN_ACTION_SUCCESS,
+    payload: any
+}
+interface CheckLoggedInFailure {
+    type: typeof CHECK_LOGGED_IN_ACTION_FAILURE
+}
+export type AuthenticationActionTypes =
+    RegisterAccount |
+    LoginActionsRequest |
+    LoginActionsSuccess |
+    LoginActionsFailure |
+    CheckLoggedInRequest |
+    CheckLoggedInSuccess |
+    CheckLoggedInFailure;

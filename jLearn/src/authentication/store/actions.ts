@@ -1,16 +1,22 @@
-import { REGISTER, LOGIN_ACTION_REQUEST, LOGIN_ACTION_FAILURE, LOGIN_ACTION_SUCCESS } from "../store/actionContants";
+import {
+    REGISTER_ACTION_REQUEST,
+    LOGIN_ACTION_REQUEST,
+    LOGIN_ACTION_FAILURE,
+    LOGIN_ACTION_SUCCESS,
+    CHECK_LOGGED_IN_ACTION_REQUEST,
+    CHECK_LOGGED_IN_ACTION_SUCCESS,
+    CHECK_LOGGED_IN_ACTION_FAILURE
+} from "../store/actionContants";
 import { UserRegister, UserLogin } from "../models/request";
-// import console = require("console");
+
 export function registerAccount(user: UserRegister) {
     return {
-        type: REGISTER,
+        type: REGISTER_ACTION_REQUEST,
         payload: user
     }
 }
 
 export function loginWithEmailAndPasswordRequest(email: string, password: string) {
-    console.log("---LOG--IN-ACTION--", email)
-    console.log("---LOG--IN-ACTION--", password)
     return {
         type: LOGIN_ACTION_REQUEST,
         payload: {
@@ -20,16 +26,32 @@ export function loginWithEmailAndPasswordRequest(email: string, password: string
     }
 }
 
-export function loginWithEmailAndPasswordSuccess() {
-    console.log("---LOG--IN-ACTION--SUCESS")
+export function loginWithEmailAndPasswordSuccess(user: any) {
     return {
         type: LOGIN_ACTION_SUCCESS,
+        payload: user
     }
 }
 
 export function loginWithEmailAndPasswordFailure() {
-    console.log("---LOG--IN-ACTION--FAILE")
     return {
         type: LOGIN_ACTION_FAILURE,
+    }
+}
+
+export function checkExistedAccountLoggInRequest() {
+    return {
+        type: CHECK_LOGGED_IN_ACTION_REQUEST
+    }
+}
+export function checkExistedAccountLoggInSuccess(user: any) {
+    return {
+        type: CHECK_LOGGED_IN_ACTION_SUCCESS,
+        payload: user
+    }
+}
+export function checkExistedAccountLoggInFailure() {
+    return {
+        type: CHECK_LOGGED_IN_ACTION_FAILURE
     }
 }

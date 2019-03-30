@@ -8,16 +8,17 @@ import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView, } 
 import { connect } from "react-redux";
 import { CustomTextInput } from "../components";
 import { widthPercentageToDP, heightPercentageToDP } from "../../app/utils/responsive";
-import { thunkLogginWithEmailAndPassword } from "../store/thunk";
+import { thunkLogginWithEmailAndPassword, thunkCheckLoggedIn } from "../store/thunk";
 import { bindActionCreators } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { AppState } from "../../app/store";
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
 interface DispatchInjectedProps {
-    // loginWithEmailAndPassword: typeof loginWithEmailAndPassword;
-    loginWithEmailAndPassword: typeof thunkLogginWithEmailAndPassword
+    loginWithEmailAndPassword: typeof thunkLogginWithEmailAndPassword,
+    checkLoggedIn: typeof thunkCheckLoggedIn
 }
 
 interface StateInjectedProps {
@@ -46,9 +47,10 @@ class SignInScreen extends React.Component<Props, State> {
         }
     }
 
-    handleLogin = () => {
+    handleLogin = async () => {
         const { email, password } = this.state
-        this.props.loginWithEmailAndPassword(email, password);
+        await this.props.loginWithEmailAndPassword(email, password);
+        this.props.navigation.navigate('App');
     }
 
     render() {
@@ -102,8 +104,12 @@ class SignInScreen extends React.Component<Props, State> {
         );
     }
 }
+const mapStateToProps = (state: AppState) => ({
+    authentication: state.session,
+});
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({
     loginWithEmailAndPassword: bindActionCreators(thunkLogginWithEmailAndPassword, dispatch),
+    checkLoggedIn: bindActionCreators(thunkCheckLoggedIn, dispatch)
 });
 
 const styles = StyleSheet.create({
@@ -185,4 +191,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null, mapDispatchToProps)(SignInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);

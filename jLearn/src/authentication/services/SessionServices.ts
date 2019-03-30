@@ -9,7 +9,24 @@ export async function loginEmailAndPassword(email: string, password: string) {
             }
         }
         const response = await SessionAPI.loginEmailAndPassword(requestData);
-        return response;
+        if (response.user) {
+            return response.user;
+        } else {
+            return response
+        }
+    } catch (error) {
+        return error;
+    }
+}
+export async function checkLoggedIn() {
+    try {
+        const response: any = await SessionAPI.checkLoggedIn();
+        console.log('RES-LOGIC-CHECKED', response)
+        if (response) {
+            return response._user;
+        } else {
+            return response
+        }
     } catch (error) {
         return error;
     }

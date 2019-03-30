@@ -9,3 +9,15 @@ export function loginEmailAndPassword(requestData: UserLogin) {
             return error;
         })
 }
+
+export function checkLoggedIn() {
+    return new Promise(function (resolve, reject) {
+        firebase.auth().onAuthStateChanged((user: any) => {
+            if (user) {
+                resolve(user);
+            } else {
+                reject(user);
+            }
+        })
+    })
+}
