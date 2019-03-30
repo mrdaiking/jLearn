@@ -25,11 +25,11 @@ export default function CustomTextInput(props: Props) {
                 <Text
                     allowFontScaling={true}
                     style={styles.label}>{props.label}</Text>
-                <IconMaterial
+                {/* <IconMaterial
                     name={props.iconName}
                     size={20}
                     color="#FFFFFF"
-                />
+                /> */}
             </View>
             <TextInput
                 secureTextEntry={props.secureTextEntry}
@@ -71,8 +71,7 @@ const styles = StyleSheet.create({
         height: 50,
         padding: 15,
         backgroundColor: '#F0F1F4',
-        opacity: 0.8,
-        borderRadius: 6,
-        marginTop: 5
+        borderRadius: 5,
+        marginTop: 5,
     }
 })

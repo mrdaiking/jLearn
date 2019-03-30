@@ -3,8 +3,8 @@
  * Date: 2019/03/18
  */
 import * as React from "react";
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity } from "react-native";
-import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Image } from "react-native";
+import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView, } from "react-navigation";
 import { connect } from "react-redux";
 import { CustomTextInput } from "../components";
 import { widthPercentageToDP, heightPercentageToDP } from "../../app/utils/responsive";
@@ -47,28 +47,18 @@ class SignInScreen extends React.Component<Props, State> {
     }
 
     handleLogin = () => {
-        //TODO: handle login
         const { email, password } = this.state
-        // firebase
-        //     .auth()
-        //     .signInWithEmailAndPassword(email, password)
-        //     .then(() => this.props.navigation.navigate('App'))
-        //     .catch(error => this.setState({ errorMessage: error.message }))
-
-        // this.props.loginWithEmailAndPassword(email, password);
         this.props.loginWithEmailAndPassword(email, password);
     }
 
     render() {
         return (
-
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
                     <View style={styles.logo}>
-                        <Text style={{ fontSize: 50 }}>LOGO</Text>
-                    </View>
-                    <View style={styles.labelPageContainer}>
-                        <Text style={styles.labelPage}>Login</Text>
+                        <Image
+                            source={require('../assets/logo/logo.png')}
+                        />
                     </View>
                     <View style={styles.formContainer}>
                         <CustomTextInput
@@ -96,7 +86,7 @@ class SignInScreen extends React.Component<Props, State> {
                     <View style={styles.loginButtonWraper}>
                         <TouchableOpacity
                             onPress={this.handleLogin}
-                            style={styles.button}
+                            style={styles.loginButtonContainer}
                         >
                             <Text style={styles.loginButtonText}>Login</Text>
                         </TouchableOpacity>
@@ -121,60 +111,28 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container: {
-        height: '100%',
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#F8F8F8"
+        backgroundColor: "#FFFFFF"
     },
     logo: {
         height: heightPercentageToDP('15%'),
         width: "100%",
-        backgroundColor: "#F8F8F8",
         justifyContent: "center",
         alignItems: "center"
     },
-    labelPageContainer: {
-        height: heightPercentageToDP('5%'),
-        width: "100%",
-        paddingHorizontal: 20,
-        justifyContent: 'center',
-        alignItems: 'flex-start'
-    },
-    labelPage: {
-        color: '#6558D7',
-        fontSize: 30,
-        fontWeight: 'bold',
-        textAlign: 'left'
-    },
     formContainer: {
-        height: heightPercentageToDP('50%'),
         width: "100%",
-        padding: 15
-    },
-    linearGradient: {
-        flex: 1,
-        paddingHorizontal: 15,
-        borderRadius: 10,
-        borderColor: '#ddd',
-        borderBottomWidth: 0,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 1,
+        padding: 15,
     },
     forgotButtonContainer: {
         width: "100%",
         alignItems: 'flex-end'
     },
     forgotButton: {
-        height: 30,
-        width: 140,
-        backgroundColor: '#F8F8F8',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 5,
-        borderRadius: 15
     },
     forgotButtonText: {
         color: '#1F2041'
@@ -185,7 +143,8 @@ const styles = StyleSheet.create({
         width: widthPercentageToDP('50%'),
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 25
+        borderRadius: 25,
+        backgroundColor: '#FC1A1C'
     },
     loginButtonText: {
         color: '#FFFFFF',
@@ -193,12 +152,14 @@ const styles = StyleSheet.create({
     },
     loginButtonWraper: {
         height: heightPercentageToDP('15%'),
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'transparent'
     },
     button: {
         width: '100%',
-        backgroundColor: 'green'
+        // backgroundColor: 'green'
     },
     buttonText: {
         fontSize: 20,
@@ -212,9 +173,11 @@ const styles = StyleSheet.create({
     bottomView: {
         height: heightPercentageToDP('15%'),
         width: "100%",
+        alignSelf: 'flex-end',
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'flex-end',
+        paddingBottom: 10
     },
     buttonContainer: {
         width: "100%",
