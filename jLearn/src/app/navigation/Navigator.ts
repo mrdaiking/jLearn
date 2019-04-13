@@ -12,6 +12,7 @@ import {
     OptionsScreen, SettingsScreen, HomeScreen
 } from "../screens";
 import { SignInScreen, RegisterScreen, LoadingScreen } from "../../authentication/screens";
+import { GrammarScreen, AddingGrammarScreen } from "../../grammar/screens";
 
 
 const AuthStack = createStackNavigator(
@@ -23,11 +24,23 @@ const AuthStack = createStackNavigator(
         headerMode: 'none'
     }
 )
+
+const GrammarStack = createStackNavigator(
+    {
+        GrammarScreen,
+        AddingGrammarScreen
+    },
+    {
+        headerMode: 'none'
+    }
+)
 const HomeStack = createStackNavigator(
     {
         HomeScreen,
         DetailScreen,
         OptionsScreen,
+        Grammar: GrammarStack
+
     },
     {
         headerMode: 'none'

@@ -7,7 +7,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
-// import console = require("console");
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
@@ -20,19 +19,19 @@ interface StateInjectedProps {
 
 }
 
-interface HomeScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
+interface GrammarScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
 
 }
 
-interface HomeScreenState {
+interface GrammarcreenState {
     isLoading: boolean,
     bunpoList: any[],
 }
 
-class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
+class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenState> {
     aref: any;
     unsubscribe: any;
-    constructor(props: HomeScreenProps) {
+    constructor(props: GrammarScreenProps) {
         super(props);
         this.aref = firebase.firestore().collection('bunpo_N3');
         this.unsubscribe = null;
@@ -86,8 +85,6 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
 
     }
 
-
-
     addDocument = () => {
         this.aref.add({
             head: {
@@ -102,25 +99,24 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     }
 
     render() {
-        console.log("AREF DID", this.aref)
+        console.log('---THE PROPS---', this.props)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
-                    <Text>Home Screen</Text>
+                    <Text>Grammar Screen</Text>
                     <TouchableOpacity
                         onPress={() => this.addDocument()}
                     >
-                        <Text>Add</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('Grammar')}
+                        onPress={() => this.props.navigation.navigate('AddingGrammarScreen')}
                     >
-                        <Text>GRAMMAR</Text>
+                        <Text>ADD NEW GRAMMAR</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => this.signOut()}
+                        onPress={() => this.props.navigation.goBack(null)}
                     >
-                        <Text>SIGNOUT</Text>
+                        <Text>BACK</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -141,4 +137,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default connect(null, null)(HomeScreen);
+export default connect(null, null)(GrammarScreen);

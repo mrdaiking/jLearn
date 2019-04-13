@@ -7,5 +7,5 @@ export {
     SettingsScreen,
     HomeScreen,
     DetailScreen,
-    OptionsScreen
+    OptionsScreen,
 }
