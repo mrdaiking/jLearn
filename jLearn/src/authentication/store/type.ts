@@ -4,7 +4,7 @@ interface RegisterAccount {
     type: typeof REGISTER;
     payload: UserRegister
 }
-interface LoginActionsRequest {
+type LoginActionsRequest = {
     type: typeof LOGIN_ACTION_REQUEST;
     payload: UserLogin
 }

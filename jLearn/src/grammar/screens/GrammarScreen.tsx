@@ -33,14 +33,12 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     unsubscribe: any;
     constructor(props: GrammarScreenProps) {
         super(props);
-        this.aref = firebase.firestore().collection('bunpo_N3');
+        this.aref = firebase.firestore().collection('bunko_N3');
         this.unsubscribe = null;
         this.state = {
             isLoading: false,
             bunpoList: []
         }
-        this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
-        this.addDocument = this.addDocument.bind(this);
         this.signOut = this.signOut.bind(this);
     }
 
@@ -52,6 +50,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         console.log("AREF DID", this.aref);
         this.unsubscribe = this.aref.onSnapshot(this.onCollectionUpdate);
         console.log("UNSUBSCRIBE", this.unsubscribe)
+
     }
     componentWillUnmount() {
         this.unsubscribe();
@@ -65,8 +64,9 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     }
     onCollectionUpdate = (querySnapshot: any) => {
         const bunpoList = [];
+        console.log('DOCUMENT', querySnapshot);
         querySnapshot.forEach((doc: any) => {
-            console.log('DOC', doc.data());
+            console.log('DOC', doc.data().id);
             // doc.ref.update({ userName: 'hihi' })
             // const { title, complete } = doc.data();
             // todos.push({
@@ -81,21 +81,41 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         //     loading: false,
         // });
     }
+
+    getData() {
+        firebase
+            .firestore()
+            .runTransaction(async transaction => {
+                const doc = await transaction.get(this.aref);
+                console.log('---UPDATE--INDEX--', doc)
+                // if it does not exist set the population to one
+                // if (!doc.exists) {
+                //     transaction.set(ref, { population: 1 });
+                //     // return the new value so we know what the new population is
+                //     return 1;
+                // }
+
+                // // exists already so lets increment it + 1
+                // const newPopulation = doc.data().population + 1;
+
+                // transaction.update(ref, {
+                //     population: newPopulation,
+                // });
+
+                // // return the new value so we know what the new population is
+                // return newPopulation;
+            })
+            .then(newPopulation => {
+                console.log(
+                    `Transaction successfully committed and new population is`
+                );
+            })
+            .catch(error => {
+                console.log('Transaction failed: ', error);
+            });
+    }
     updateDocument = () => {
 
-    }
-
-    addDocument = () => {
-        this.aref.add({
-            head: {
-                verbs: {
-                    masu: true,
-                    te: false
-                }
-            },
-            main: "ように",
-            tail: ["しない", "する"]
-        })
     }
 
     render() {
@@ -104,10 +124,6 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
                     <Text>Grammar Screen</Text>
-                    <TouchableOpacity
-                        onPress={() => this.addDocument()}
-                    >
-                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('AddingGrammarScreen')}
                     >

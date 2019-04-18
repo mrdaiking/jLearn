@@ -40,23 +40,9 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
             isLoading: false,
             bunpoList: []
         }
-        this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
-        this.addDocument = this.addDocument.bind(this);
         this.signOut = this.signOut.bind(this);
     }
 
-    componentWillMount() {
-        console.log("AREF WILL", this.aref)
-    }
-
-    componentDidMount() {
-        console.log("AREF DID", this.aref);
-        this.unsubscribe = this.aref.onSnapshot(this.onCollectionUpdate);
-        console.log("UNSUBSCRIBE", this.unsubscribe)
-    }
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
     signOut = () => {
         firebase.auth().signOut().then((result) => {
             console.log("RESULt LOGGOUT", result)
@@ -64,54 +50,12 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
             console.log("ERROR LOGOUT", error)
         })
     }
-    onCollectionUpdate = (querySnapshot: any) => {
-        const bunpoList = [];
-        querySnapshot.forEach((doc: any) => {
-            console.log('DOC', doc.data());
-            // doc.ref.update({ userName: 'hihi' })
-            // const { title, complete } = doc.data();
-            // todos.push({
-            //     key: doc.id,
-            //     doc, // DocumentSnapshot
-            //     title,
-            //     complete,
-            // });
-        });
-        // this.setState({
-        //     todos,
-        //     loading: false,
-        // });
-    }
-    updateDocument = () => {
-
-    }
-
-
-
-    addDocument = () => {
-        this.aref.add({
-            head: {
-                verbs: {
-                    masu: true,
-                    te: false
-                }
-            },
-            main: "ように",
-            tail: ["しない", "する"]
-        })
-    }
-
     render() {
         console.log("AREF DID", this.aref)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
                     <Text>Home Screen</Text>
-                    <TouchableOpacity
-                        onPress={() => this.addDocument()}
-                    >
-                        <Text>Add</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('Grammar')}
                     >

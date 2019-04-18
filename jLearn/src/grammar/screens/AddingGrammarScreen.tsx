@@ -36,6 +36,7 @@ interface GrammarcreenState {
     adjs: any[],
     noun: string,
     mean: string,
+    main: string
 }
 
 class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, GrammarcreenState> {
@@ -53,6 +54,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             adjs: [],
             noun: '',
             mean: '',
+            main: ''
         }
         this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
         this.addDocument = this.addDocument.bind(this);
@@ -111,6 +113,8 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
     }
 
+
+
     addValue = async (value: any, type: any) => {
         if (type == 'V') {
             this.setState({
@@ -125,7 +129,6 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                 tails: [...this.state.tails, value]
             })
         }
-
     }
 
     renderItemList = (verb: any) => {
@@ -174,16 +177,23 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     addDocument = () => {
-        this.aref.add({
+        let dataSending = {
             head: {
-                verbs: {
-                    masu: true,
-                    te: false
-                }
+                verbs: this.state.verbs,
+                adjs: this.state.adjs,
+                noun: this.state.noun
             },
-            main: "ように",
-            tail: ["しない", "する"]
-        })
+            main: this.state.main,
+            mean: this.state.mean,
+            tails: this.state.tails
+        }
+        console.log('---SENDING DATA---', dataSending)
+        this.aref.add(dataSending);
+    }
+
+    onSubmit = async () => {
+        await this.addDocument();
+        this.props.navigation.goBack(null);
     }
 
     addVerbs = () => {
@@ -225,7 +235,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                                 <AddingComponent
                                     type='M'
                                     addValue={(value) => this.addValue(value, 'M')}
-                                    exportValue={(value) => { this.setState({ noun: value }) }}
+                                    exportValue={(value) => { this.setState({ main: value }) }}
                                 />
                             </View>
                             <View style={{ height: 80 }}>
@@ -243,7 +253,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
                     </ScrollView>
                     <TouchableOpacity
-                        onPress={() => { }}
+                        onPress={() => this.onSubmit()}
                         style={{ width: '100%', height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FC3D39' }}
                     >
                         <Text>SUBMIT</Text>

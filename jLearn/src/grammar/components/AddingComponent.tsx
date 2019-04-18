@@ -66,11 +66,9 @@ export default function AddingComponent(props: Props) {
         setType('');
     }
 
-    function onValueChange(value: string) {
+    function onValueChange(value: string, type: string) {
         setValue(value);
-        if (type == 'N' || type == 'M' || type == 'ME') {
-            props.exportValue(value);
-        }
+        props.exportValue(value);
     }
 
     function getTypeVerb(type: string) {
@@ -128,7 +126,7 @@ export default function AddingComponent(props: Props) {
                     autoCapitalize="none"
                     placeholder='Enter here...'
                     value={value || props.value}
-                    onChangeText={(value) => onValueChange(value)}
+                    onChangeText={(value) => onValueChange(value, type)}
                     style={styles.inputValue}
                 />
             </View>
