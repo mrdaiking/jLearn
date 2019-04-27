@@ -114,6 +114,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         return (
             <FlatList
                 horizontal={false}
+                style={{ backgroundColor: 'transparent' }}
                 data={bunpoList}
                 initialScrollIndex={0}
                 // refreshing={this.state.isLoading}

@@ -156,6 +156,8 @@ export default function AddingComponent(props: Props) {
                     value={value || props.value}
                     onChangeText={(value) => onValueChange(value, type)}
                     style={styles.inputValue}
+                    numberOfLines={props.type == 'ME' ? 10 : 1}
+                    multiline={props.type == 'ME' ? true : false}
                 />
             </View>
             {
@@ -190,8 +192,9 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 40,
-        justifyContent: 'flex-end',
-        alignItems: 'center'
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     inputValue: {
         height: 40,

@@ -13,7 +13,7 @@ export default function GrammarCard(props: Props) {
     function renderVerbs() {
         return props.data.head.verbs.length !== 0 ?
             props.data.head.verbs.map((item: any) => {
-                return <View style={{ backgroundColor: 'green', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
+                return <View style={{ backgroundColor: '#FED958', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
                     <Text>{item.value}</Text>
                 </View>
             })
@@ -22,7 +22,7 @@ export default function GrammarCard(props: Props) {
     }
     function renderNoun() {
         return props.data.head.noun ?
-            <View style={{ backgroundColor: 'green', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
+            <View style={{ backgroundColor: '#FC3D39', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
                 <Text>{props.data.head.noun}</Text>
             </View>
             : null;
@@ -32,26 +32,49 @@ export default function GrammarCard(props: Props) {
         return props.data.head.adjs ?
             props.data.head.adjs.map((item: any) => {
                 return
-                <View style={{ backgroundColor: 'green', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
+                <View style={{ backgroundColor: '#8AF976', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
                     <Text>{item.value}</Text>
                 </View>
             }) : null;
     }
     function renderTails() {
-        return props.data.tails ?
-            props.data.tails.map((item: any) => {
-                return <Text>{item.value}</Text>
-            }) : null;
+        return props.data.tails && props.data.tails.length !== 0 ?
+            <View style={styles.tailContainer}>
+                {
+                    props.data.tails.map((item: any) => {
+                        return <Text>{item.value}</Text>
+                    })
+                }
+            </View>
+            : null;
     }
     function renderMain() {
         return props.data.mains ?
-            props.data.mains.map((item: any) => {
-                return <Text>{item.value}</Text>
-            }) : null;
+            <View style={{ justifyContent: 'center', alignItems: 'center', height: '100%', flexDirection: 'row' }}>
+                <IconMaterial
+                    name='add'
+                    size={10}
+                    color="#000000"
+                />
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                    {props.data.mains.map((item: any) => {
+                        return <Text style={{ fontWeight: 'bold' }}>{item.value}</Text>
+                    })}
+                </View>
+                {
+                    props.data.tails && props.data.tails.length !== 0 ? <IconMaterial
+                        name='add'
+                        size={10}
+                        color="#000000"
+                    /> : null
+                }
+
+            </View>
+            : null;
     }
     return (
-        <View style={styles.card}>
-            <View style={{ flex: 1 }}>
+        <TouchableOpacity style={styles.card}>
+            <View style={{ flex: 1, backgroundColor: 'transparent' }}>
                 <View style={{ flex: 1, flexDirection: 'row', }}>
                     <View style={styles.headContainer}>
                         {renderVerbs()}
@@ -61,12 +84,12 @@ export default function GrammarCard(props: Props) {
                     <View style={styles.mainContainer}>
                         {renderMain()}
                     </View>
-                    <View style={styles.tailContainer}>
+                    {
+                        renderTails()
+                    }
 
-                        {renderTails()}
-                    </View>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
                     <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{props.data.mean}</Text>
                 </View>
             </View>
@@ -75,11 +98,11 @@ export default function GrammarCard(props: Props) {
             >
                 <IconMaterial
                     name='delete'
-                    size={30}
-                    color="#FFFFFF"
+                    size={25}
+                    color="#000000"
                 />
             </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -88,16 +111,17 @@ const styles = StyleSheet.create({
         width: '100%',
         minHeight: 100,
         flexDirection: 'row',
-        backgroundColor: '#00CED1',
+        backgroundColor: '#ECDCDC',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 10,
-        marginVertical: 5,
+        marginVertical: 10,
         shadowColor: theme.colors.black,
-        shadowOpacity: 0.11,
+        shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 13,
-        borderRadius: 5
+        shadowRadius: 2,
+        borderRadius: 5,
+        elevation: 2
 
     },
     headContainer: {

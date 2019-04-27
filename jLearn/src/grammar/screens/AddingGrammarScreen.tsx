@@ -41,7 +41,11 @@ interface GrammarcreenState {
     adjs: any[],
     noun: string,
     mean: string,
-    mains: any[]
+    mains: any[],
+    examples: any[],
+    usage: string,
+    image: any,
+    category: any
 }
 
 class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, GrammarcreenState> {
@@ -59,7 +63,11 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             adjs: [],
             noun: '',
             mean: '',
-            mains: []
+            mains: [],
+            examples: [],
+            usage: '',
+            image: '',
+            category: ''
         }
         this.addDocument = this.addDocument.bind(this);
         this.signOut = this.signOut.bind(this);
@@ -114,6 +122,12 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                 this.setState({
                     mains: [...this.state.mains, value]
                 })
+                break;
+            case 'E':
+                this.setState({
+                    examples: [...this.state.examples, value]
+                })
+                break;
             default:
                 break;
         }
@@ -155,6 +169,9 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             case 'M':
                 return this.state.mains
                 break;
+            case 'E':
+                return this.state.examples
+                break;
             default:
                 return [];
                 break;
@@ -176,16 +193,21 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     addDocument = () => {
+        let { verbs, adjs, noun, mains, mean, tails, category, image, examples, usage } = this.state;
         let dataSending = {
             createTime: moment().millisecond(),
             head: {
-                verbs: this.state.verbs,
-                adjs: this.state.adjs,
-                noun: this.state.noun
+                verbs,
+                adjs,
+                noun
             },
-            mains: this.state.mains,
-            mean: this.state.mean,
-            tails: this.state.tails
+            mains,
+            mean,
+            tails,
+            category,
+            image,
+            examples,
+            usage
         }
         console.log('---SENDING DATA---', dataSending)
         this.aref.add(dataSending);
@@ -214,36 +236,36 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                         title='Adding Screen'
                         _backFunc={() => this.props.navigation.goBack(null)}
                     />
-                    <ScrollView>
-                        <Block padding={10}>
-                            {
-                                this.renderList('V')
-                            }
-                            <View style={{ height: 80 }}>
-                                <AddingComponent
-                                    type='N'
-                                    addValue={(value) => this.addValue(value, 'N')}
-                                    exportValue={(value) => { this.setState({ noun: value }) }}
-                                />
-                            </View>
-                            {
-                                this.renderList('A')
-                            }
-                            {
-                                this.renderList('M')
-                            }
-                            <View style={{ height: 80 }}>
-                                <AddingComponent
-                                    type='ME'
-                                    addValue={(value) => this.addValue(value, 'ME')}
-                                    exportValue={(value) => { this.setState({ mean: value }) }}
-                                />
-                            </View>
-                            {
-                                this.renderList('TAIL')
-                            }
-
-                        </Block>
+                    <ScrollView style={{ backgroundColor: '#FFFFFF', paddingHorizontal: 10 }}>
+                        {
+                            this.renderList('V')
+                        }
+                        <View style={{ height: 80 }}>
+                            <AddingComponent
+                                type='N'
+                                addValue={(value) => this.addValue(value, 'N')}
+                                exportValue={(value) => { this.setState({ noun: value }) }}
+                            />
+                        </View>
+                        {
+                            this.renderList('A')
+                        }
+                        {
+                            this.renderList('M')
+                        }
+                        <View style={{ height: 80 }}>
+                            <AddingComponent
+                                type='ME'
+                                addValue={(value) => this.addValue(value, 'ME')}
+                                exportValue={(value) => { this.setState({ mean: value }) }}
+                            />
+                        </View>
+                        {
+                            this.renderList('TAIL')
+                        }
+                        {
+                            this.renderList('E')
+                        }
 
                     </ScrollView>
                     <TouchableOpacity
