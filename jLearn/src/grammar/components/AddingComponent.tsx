@@ -4,6 +4,7 @@ import { TouchableOpacity, Text, StyleSheet, View, Picker, TextInput } from "rea
 import { theme } from '../../app/constants';
 import { CustomTextInput } from '../../authentication/components';
 import DropDownComponent from "./DropDownComponent";
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 interface Props {
     type: string,
     value?: string,
@@ -116,7 +117,11 @@ export default function AddingComponent(props: Props) {
             <TouchableOpacity style={styles.button}
                 onPress={() => addNew()}
             >
-                <Text>Add</Text>
+                <IconMaterial
+                    name='add'
+                    size={20}
+                    color="#000000"
+                />
             </TouchableOpacity>
             :
             null
@@ -124,13 +129,13 @@ export default function AddingComponent(props: Props) {
 
     function renderDropdown(type: any) {
         return type == 'V' || type == 'A' ?
-            <View style={styles.dropboxType}>
+            < View style={styles.dropboxType} >
                 <DropDownComponent
                     source={type == 'V' ? verbTypes : adjTypes}
                     onChangeText={(type) => getTypeVerb(type)}
                     value={props.nameType || ''}
                 />
-            </View>
+            </View >
             : null
     }
 
@@ -170,7 +175,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: theme.sizes.radius,
-        padding: theme.sizes.base + 4,
+        padding: 5,
         marginBottom: theme.sizes.base,
     },
     title: {
@@ -184,7 +189,9 @@ const styles = StyleSheet.create({
         flex: 2
     },
     button: {
-        width: 30
+        width: 40,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     inputValue: {
         height: 40,

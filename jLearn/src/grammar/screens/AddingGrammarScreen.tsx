@@ -41,7 +41,7 @@ interface GrammarcreenState {
     adjs: any[],
     noun: string,
     mean: string,
-    main: string
+    mains: any[]
 }
 
 class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, GrammarcreenState> {
@@ -59,7 +59,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             adjs: [],
             noun: '',
             mean: '',
-            main: ''
+            mains: []
         }
         this.addDocument = this.addDocument.bind(this);
         this.signOut = this.signOut.bind(this);
@@ -94,18 +94,28 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
 
     addValue = async (value: any, type: any) => {
-        if (type == 'V') {
-            this.setState({
-                verbs: [...this.state.verbs, value]
-            })
-        } else if (type == 'A') {
-            this.setState({
-                adjs: [...this.state.adjs, value]
-            })
-        } else {
-            this.setState({
-                tails: [...this.state.tails, value]
-            })
+        switch (type) {
+            case 'V':
+                this.setState({
+                    verbs: [...this.state.verbs, value]
+                })
+                break;
+            case 'A':
+                this.setState({
+                    verbs: [...this.state.adjs, value]
+                })
+                break;
+            case 'TAIL':
+                this.setState({
+                    tails: [...this.state.tails, value]
+                })
+                break;
+            case 'M':
+                this.setState({
+                    mains: [...this.state.mains, value]
+                })
+            default:
+                break;
         }
     }
 
@@ -132,16 +142,27 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     getSource = (type: string) => {
-        if (type == 'V') {
-            return this.state.verbs
-        } else if (type == 'A') {
-            return this.state.adjs
-        } else {
-            return this.state.tails
+        switch (type) {
+            case 'V':
+                return this.state.verbs
+                break;
+            case 'A':
+                return this.state.adjs
+                break;
+            case 'TAIL':
+                return this.state.tails
+                break;
+            case 'M':
+                return this.state.mains
+                break;
+            default:
+                return [];
+                break;
         }
     }
 
     renderList = (type: string) => {
+        console.log('---TYPe---', type)
         return (
             <FlatList
                 style={{ backgroundColor: 'transparent' }}
@@ -162,7 +183,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                 adjs: this.state.adjs,
                 noun: this.state.noun
             },
-            main: this.state.main,
+            mains: this.state.mains,
             mean: this.state.mean,
             tails: this.state.tails
         }
@@ -190,12 +211,11 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
                     <Header
-                        title='Grammar Screen'
+                        title='Adding Screen'
                         _backFunc={() => this.props.navigation.goBack(null)}
                     />
                     <ScrollView>
-                        <Block padding={[0, theme.sizes.base * 2]}>
-
+                        <Block padding={10}>
                             {
                                 this.renderList('V')
                             }
@@ -209,13 +229,9 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                             {
                                 this.renderList('A')
                             }
-                            <View style={{ height: 80 }}>
-                                <AddingComponent
-                                    type='M'
-                                    addValue={(value) => this.addValue(value, 'M')}
-                                    exportValue={(value) => { this.setState({ main: value }) }}
-                                />
-                            </View>
+                            {
+                                this.renderList('M')
+                            }
                             <View style={{ height: 80 }}>
                                 <AddingComponent
                                     type='ME'
