@@ -107,15 +107,15 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
 
     renderListBunpo = (bunpoList: any) => {
         console.log('---LIST BUNPO---', this.state.bunpoList.grammars)
-        // let newbunpoList = bunpoList.sort((first: any, second: any) => {
-        //     return second.createTime - first.createTime;
-        // })
-        // console.log('---SORTED BUNPO---', newbunpoList)
+        let newbunpoList = bunpoList.sort((first: any, second: any) => {
+            return second.createTime - first.createTime;
+        })
+        console.log('---SORTED BUNPO---', newbunpoList)
         return (
             <FlatList
                 horizontal={false}
                 style={{ backgroundColor: 'transparent' }}
-                data={bunpoList}
+                data={newbunpoList}
                 initialScrollIndex={0}
                 // refreshing={this.state.isLoading}
                 keyExtractor={(item: any, index: number) => index.toString()}

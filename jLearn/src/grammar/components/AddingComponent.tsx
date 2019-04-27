@@ -72,8 +72,10 @@ export default function AddingComponent(props: Props) {
         let newValue = {
             isHas: true,
             nameType: type,
+            cate: props.type,
             value
         }
+        console.log('--NAME_TYPE--', newValue)
 
         // if (validateDataInput(newValue.nameType, newValue.value)) {
         //     await props.addValue(newValue);

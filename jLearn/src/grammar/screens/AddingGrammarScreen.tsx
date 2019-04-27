@@ -16,6 +16,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { thunkGrammarFromFireBase } from "../store/thunk";
 import moment from "moment";
 import { Header } from "../../app/components";
+import { Button } from 'react-native-elements';
 // import console = require("console");
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
@@ -99,6 +100,43 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
     }
 
+    _onDelelte = (type: any, id: any) => {
+
+        // const filteredData = this.getSource(type).filter(item => item.id !== id);
+        const filteredData = this.getSource(type).filter((item: any, index: number) => index !== id);
+        // const filteredData = this.getSource(type);
+        switch (type) {
+            case 'V':
+                this.setState({
+                    verbs: filteredData
+                })
+                break;
+            case 'A':
+                this.setState({
+                    adjs: filteredData
+                })
+                break;
+            case 'TAIL':
+                this.setState({
+                    tails: filteredData
+                })
+                break;
+            case 'M':
+                this.setState({
+                    mains: filteredData
+                })
+                break;
+            case 'E':
+                this.setState({
+                    examples: filteredData
+                })
+                break;
+            default:
+                break;
+        }
+        console.log('---UPDATE--FI--', filteredData)
+    }
+
 
 
     addValue = async (value: any, type: any) => {
@@ -110,7 +148,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                 break;
             case 'A':
                 this.setState({
-                    verbs: [...this.state.adjs, value]
+                    adjs: [...this.state.adjs, value]
                 })
                 break;
             case 'TAIL':
@@ -140,6 +178,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                 type={''}
                 nameType={verb ? verb.item.nameType : ''}
                 value={verb ? verb.item.value : ''}
+                _clearFunc={() => this._onDelelte(verb.item.cate, verb.index)}
             />
         )
     }
@@ -268,12 +307,14 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
                         }
 
                     </ScrollView>
-                    <TouchableOpacity
-                        onPress={() => this.onSubmit()}
-                        style={{ width: '100%', height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FC3D39' }}
-                    >
-                        <Text>SUBMIT</Text>
-                    </TouchableOpacity>
+                    <View style={{ height: 50, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Button
+                            onPress={() => this.onSubmit()}
+                            style={{ width: 200 }}
+                            title="ADD"
+                        />
+                    </View>
+
                 </KeyboardAvoidingView>
             </SafeAreaView >
         );

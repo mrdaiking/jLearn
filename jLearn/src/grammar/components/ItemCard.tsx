@@ -2,11 +2,13 @@ import * as React from "react";
 import { useState } from "react";
 import { TouchableOpacity, Text, StyleSheet, View, Picker, TextInput } from "react-native";
 import { theme } from "../../app/constants";
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 
 interface Props {
     type?: string,
     nameType: string,
-    value: string
+    value: string,
+    _clearFunc(): void
 }
 
 export default function ItemCard(props: Props) {
@@ -39,6 +41,15 @@ export default function ItemCard(props: Props) {
                     {props.value}
                 </Text>
             </View>
+            <TouchableOpacity style={{ width: 40, height: '100%', justifyContent: 'center', alignItems: 'center' }}
+                onPress={props._clearFunc}
+            >
+                <IconMaterial
+                    name='clear'
+                    size={20}
+                    color="#000000"
+                />
+            </TouchableOpacity>
         </View>
     )
 }

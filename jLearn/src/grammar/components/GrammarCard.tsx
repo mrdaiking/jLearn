@@ -31,8 +31,7 @@ export default function GrammarCard(props: Props) {
     function renderAdjs() {
         return props.data.head.adjs ?
             props.data.head.adjs.map((item: any) => {
-                return
-                <View style={{ backgroundColor: '#8AF976', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
+                return <View style={{ backgroundColor: '#2ED5FA', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
                     <Text>{item.value}</Text>
                 </View>
             }) : null;
