@@ -43,6 +43,12 @@ export default function GrammarCard(props: Props) {
                 return <Text>{item.value}</Text>
             }) : null;
     }
+    function renderMain() {
+        return props.data.mains ?
+            props.data.mains.map((item: any) => {
+                return <Text>{item.value}</Text>
+            }) : null;
+    }
     return (
         <View style={styles.card}>
             <View style={{ flex: 1 }}>
@@ -53,9 +59,7 @@ export default function GrammarCard(props: Props) {
                         {renderAdjs()}
                     </View>
                     <View style={styles.mainContainer}>
-                        <Text>+</Text>
-                        <Text style={{ fontWeight: 'bold' }}>{props.data.main}</Text>
-                        <Text>+</Text>
+                        {renderMain()}
                     </View>
                     <View style={styles.tailContainer}>
 
@@ -111,7 +115,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
-        flexDirection: 'row'
     },
     tailContainer: {
         flex: 1,

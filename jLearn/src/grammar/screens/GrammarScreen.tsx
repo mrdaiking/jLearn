@@ -116,10 +116,10 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
                 horizontal={false}
                 data={bunpoList}
                 initialScrollIndex={0}
-                refreshing={this.state.isLoading}
+                // refreshing={this.state.isLoading}
                 keyExtractor={(item: any, index: number) => index.toString()}
                 renderItem={this.renderItemList}
-                onRefresh={() => this._onRefresh()}
+            // onRefresh={() => this._onRefresh()}
             />
         )
     }

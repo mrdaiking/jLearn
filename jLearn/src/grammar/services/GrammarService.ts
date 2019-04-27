@@ -30,7 +30,7 @@ let parseToGrammar = (documents: any): any => {
         return {
             id: document.id,
             createTime: grammar.createTime,
-            main: grammar.main,
+            mains: grammar.mains,
             category: grammar.category,
             head: grammar.head,
             tails: grammar.tails,
