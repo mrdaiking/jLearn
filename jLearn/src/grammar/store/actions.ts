@@ -3,6 +3,7 @@ import {
     GET_GRAMMARS_ACTION_SUCCESS,
     GET_GRAMMARS_ACTION_FAILURE
 } from "./actionConstants";
+// import { GrammarListModel } from "../models/response"
 export function getGrammarsRequest(collection: string) {
     return {
         type: GET_GRAMMARS_ACTION_REQUEST,

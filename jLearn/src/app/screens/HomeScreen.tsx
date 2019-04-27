@@ -3,10 +3,11 @@
  * Date: 2019/03/18
  */
 import * as React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
+import { ContentCard } from "../components";
 // import console = require("console");
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
@@ -55,19 +56,27 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
-                    <Text>Home Screen</Text>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('Grammar')}
-                    >
-                        <Text>GRAMMAR</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this.signOut()}
-                    >
-                        <Text>SIGNOUT</Text>
-                    </TouchableOpacity>
+                    <View style={styles.topCard}>
+                        <Text>Avatar Here</Text>
+                    </View>
+                    <ScrollView style={styles.contentContainer}>
+                        <View style={styles.ratingCard}>
+                            <Text>RATING</Text>
+                        </View>
+                        <ContentCard
+                            title='文法'
+                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen')}
+                        />
+                        <ContentCard
+                            title='漢字'
+                            _onPressFunc={() => alert('Smooth')}
+                        />
+                        <ContentCard
+                            title='言葉'
+                            _onPressFunc={() => alert('Smooth')}
+                        />
+                    </ScrollView>
                 </View>
-
             </SafeAreaView >
         );
     }
@@ -79,10 +88,29 @@ const styles = StyleSheet.create({
     },
     container: {
         height: '100%',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#F8F8F8"
+        backgroundColor: "#fdfcfc"
     },
+    topCard: {
+        height: 100,
+        width: '100%',
+        backgroundColor: "#f53b50"
+    },
+    ratingCard: {
+        height: 100,
+        width: "100%",
+        backgroundColor: '#64EAA7',
+        borderRadius: 10,
+        marginVertical: 20
+    },
+    contentContainer: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        paddingHorizontal: 10,
+        backgroundColor: '#fdfcfc',
+    }
 })
 
 export default connect(null, null)(HomeScreen);

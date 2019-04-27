@@ -36,14 +36,37 @@ export default function AddingComponent(props: Props) {
     }, {
         value: '辞書系',
         hiragana: 'じしょけい'
-    }];
+    }, {
+        value: '受け身形',
+        hiragana: 'うけみけい'
+    }, {
+        value: '命令形',
+        hiragana: 'う'
+    }, {
+        value: '可能形',
+        hiragana: 'う'
+    }, {
+        value: '使役形',
+        hiragana: 'う'
+    }, {
+        value: '意向形',
+        hiragana: 'う'
+    }, {
+        value: 'ている形',
+        hiragana: ''
+    }, {
+        value: 'ば形',
+        hiragana: ''
+    }
+    ];
     let adjTypes = [{
         value: 'い',
         hiragana: 'い'
     }, {
         value: 'な',
         hiragana: 'な'
-    }];
+    }
+    ];
     async function addNew() {
         let newValue = {
             isHas: true,

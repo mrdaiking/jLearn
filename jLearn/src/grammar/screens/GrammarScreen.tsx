@@ -3,58 +3,70 @@
  * Date: 2019/03/18
  */
 import * as React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
+import { AppState } from "../../app/store";
+import { GrammarsState } from "../models/interface";
+import { thunkGrammarFromFireBase } from "../store/thunk";
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { GrammarCard } from "../components";
+import { Header } from "../../app/components";
+import { GrammarModel } from "../models/interface";
+import { deleteGrammar } from "../api";
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+interface AppProps {
+    grammars: GrammarsState
+}
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
 interface DispatchInjectedProps {
-
+    getGrammars: typeof thunkGrammarFromFireBase
 }
 
 interface StateInjectedProps {
 
 }
 
-interface GrammarScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
+interface GrammarScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps, AppProps {
 
 }
 
 interface GrammarcreenState {
     isLoading: boolean,
-    bunpoList: any[],
+    bunpoList: any,
 }
 
 class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenState> {
-    aref: any;
-    unsubscribe: any;
     constructor(props: GrammarScreenProps) {
         super(props);
-        this.aref = firebase.firestore().collection('bunko_N3');
-        this.unsubscribe = null;
         this.state = {
             isLoading: false,
             bunpoList: []
         }
         this.signOut = this.signOut.bind(this);
+        this.renderItemList = this.renderItemList.bind(this);
+        this.renderListBunpo = this.renderListBunpo.bind(this);
     }
 
-    componentWillMount() {
-        console.log("AREF WILL", this.aref)
-    }
-
-    componentDidMount() {
-        console.log("AREF DID", this.aref);
-        this.unsubscribe = this.aref.onSnapshot(this.onCollectionUpdate);
-        console.log("UNSUBSCRIBE", this.unsubscribe)
+    async componentDidMount() {
+        await this.props.getGrammars('grammars_N3');
+        this.setState({
+            bunpoList: this.props.grammars
+        })
 
     }
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
+
+    // shouldComponentUpdate(nextProps: any, nextState: any) {
+    //     console.log("UNSUBSCRIBE", nextProps.grammars.grammars)
+    //     return this.props.grammars.grammars !== nextProps.grammars.grammars
+    //         || this.state.bunpoList !== nextState.bunpoList
+    // }
+
     signOut = () => {
         firebase.auth().signOut().then((result) => {
             console.log("RESULt LOGGOUT", result)
@@ -62,84 +74,93 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
             console.log("ERROR LOGOUT", error)
         })
     }
-    onCollectionUpdate = (querySnapshot: any) => {
-        const bunpoList = [];
-        console.log('DOCUMENT', querySnapshot);
-        querySnapshot.forEach((doc: any) => {
-            console.log('DOC', doc.data().id);
-            // doc.ref.update({ userName: 'hihi' })
-            // const { title, complete } = doc.data();
-            // todos.push({
-            //     key: doc.id,
-            //     doc, // DocumentSnapshot
-            //     title,
-            //     complete,
-            // });
-        });
-        // this.setState({
-        //     todos,
-        //     loading: false,
-        // });
-    }
 
-    getData() {
-        firebase
-            .firestore()
-            .runTransaction(async transaction => {
-                const doc = await transaction.get(this.aref);
-                console.log('---UPDATE--INDEX--', doc)
-                // if it does not exist set the population to one
-                // if (!doc.exists) {
-                //     transaction.set(ref, { population: 1 });
-                //     // return the new value so we know what the new population is
-                //     return 1;
-                // }
-
-                // // exists already so lets increment it + 1
-                // const newPopulation = doc.data().population + 1;
-
-                // transaction.update(ref, {
-                //     population: newPopulation,
-                // });
-
-                // // return the new value so we know what the new population is
-                // return newPopulation;
-            })
-            .then(newPopulation => {
-                console.log(
-                    `Transaction successfully committed and new population is`
-                );
-            })
-            .catch(error => {
-                console.log('Transaction failed: ', error);
-            });
-    }
     updateDocument = () => {
 
     }
 
+    _deleteDocument = async (id: any) => {
+        await deleteGrammar(id);
+        this.props.getGrammars('grammars_N3');
+    }
+
+    renderItemList = (grammar: any) => {
+        console.log("CONSOLE", grammar)
+        return (
+            <GrammarCard
+                data={grammar.item}
+                key={grammar.index}
+                _onDeleteFunc={() => this._deleteDocument(grammar.item.id)}
+            />
+        )
+    }
+
+    async _onRefresh() {
+        await this.props.getGrammars('grammars_N3');
+        setTimeout(() => {
+            this.setState({
+                isLoading: true
+            })
+        }, 5000)
+
+    }
+
+    renderListBunpo = (bunpoList: any) => {
+        console.log('---LIST BUNPO---', this.state.bunpoList.grammars)
+        // let newbunpoList = bunpoList.sort((first: any, second: any) => {
+        //     return second.createTime - first.createTime;
+        // })
+        // console.log('---SORTED BUNPO---', newbunpoList)
+        return (
+            <FlatList
+                horizontal={false}
+                data={bunpoList}
+                initialScrollIndex={0}
+                refreshing={this.state.isLoading}
+                keyExtractor={(item: any, index: number) => index.toString()}
+                renderItem={this.renderItemList}
+                onRefresh={() => this._onRefresh()}
+            />
+        )
+    }
+
+
+
     render() {
-        console.log('---THE PROPS---', this.props)
+        console.log('---THE PROPS---', this.props.grammars)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
-                    <Text>Grammar Screen</Text>
+                    <Header
+                        title='Grammar Screen'
+                        _backFunc={() => this.props.navigation.goBack(null)}
+                    />
+                    <View style={styles.content}>
+                        {this.props.grammars.grammars.length !== 0 ? this.renderListBunpo(this.props.grammars.grammars) : <ActivityIndicator />}
+
+                    </View>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('AddingGrammarScreen')}
+                        style={styles.addNewGrammarBtn}
                     >
-                        <Text>ADD NEW GRAMMAR</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack(null)}
-                    >
-                        <Text>BACK</Text>
+                        <IconMaterial
+                            name='add'
+                            size={40}
+                            color="#FFFFFF"
+                        />
                     </TouchableOpacity>
                 </View>
-
             </SafeAreaView >
         );
     }
 }
+const mapStateToProps = (state: AppState) => ({
+    grammars: state.grammar
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({
+    getGrammars: bindActionCreators(thunkGrammarFromFireBase, dispatch),
+});
 
 const styles = StyleSheet.create({
     styleSafeAreaView: {
@@ -149,8 +170,26 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#F8F8F8"
+        backgroundColor: "#F8F8F8",
     },
+    content: {
+        flex: 1,
+        paddingHorizontal: 10,
+    },
+    grammarCard: {
+
+    },
+    addNewGrammarBtn: {
+        position: 'absolute',
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: '#2E8B57',
+        bottom: 15,
+        right: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 })
 
-export default connect(null, null)(GrammarScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(GrammarScreen);

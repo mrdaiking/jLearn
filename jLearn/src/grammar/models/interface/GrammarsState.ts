@@ -1,6 +1,6 @@
-import { GrammarListModel } from "../response";
+// import { GrammarListModel } from "../response";
 interface GrammarsState {
-    grammars?: GrammarListModel | []
+    grammars?: any | []
 }
 export { GrammarsState };
 

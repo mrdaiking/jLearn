@@ -11,13 +11,18 @@ import { AddingComponent, ItemCard } from "../components";
 import { Block, Card } from "../../app/components";
 import { theme } from "../../app/constants";
 const { width } = Dimensions.get('window');
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { thunkGrammarFromFireBase } from "../store/thunk";
+import moment from "moment";
+import { Header } from "../../app/components";
 // import console = require("console");
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
 interface DispatchInjectedProps {
-
+    getGrammars: typeof thunkGrammarFromFireBase
 }
 
 interface StateInjectedProps {
@@ -44,7 +49,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     unsubscribe: any;
     constructor(props: AddingGrammarScreenProps) {
         super(props);
-        this.aref = firebase.firestore().collection('bunko_N3');
+        this.aref = firebase.firestore().collection('grammars_N3');
         this.unsubscribe = null;
         this.state = {
             isLoading: false,
@@ -56,7 +61,6 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             mean: '',
             main: ''
         }
-        this.onCollectionUpdate = this.onCollectionUpdate.bind(this);
         this.addDocument = this.addDocument.bind(this);
         this.signOut = this.signOut.bind(this);
         this.renderItemList = this.renderItemList.bind(this);
@@ -70,38 +74,12 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
         console.log("AREF WILL", this.aref)
     }
 
-    componentDidMount() {
-        console.log("AREF DID", this.aref);
-        this.unsubscribe = this.aref.onSnapshot(this.onCollectionUpdate);
-        console.log("UNSUBSCRIBE", this.unsubscribe)
-    }
-    componentWillUnmount() {
-        this.unsubscribe();
-    }
     signOut = () => {
         firebase.auth().signOut().then((result) => {
             console.log("RESULt LOGGOUT", result)
         }).catch(error => {
             console.log("ERROR LOGOUT", error)
         })
-    }
-    onCollectionUpdate = (querySnapshot: any) => {
-        const bunpoList = [];
-        querySnapshot.forEach((doc: any) => {
-            console.log('DOC', doc.data());
-            // doc.ref.update({ userName: 'hihi' })
-            // const { title, complete } = doc.data();
-            // todos.push({
-            //     key: doc.id,
-            //     doc, // DocumentSnapshot
-            //     title,
-            //     complete,
-            // });
-        });
-        // this.setState({
-        //     todos,
-        //     loading: false,
-        // });
     }
     updateDocument = () => {
 
@@ -178,6 +156,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
     addDocument = () => {
         let dataSending = {
+            createTime: moment().millisecond(),
             head: {
                 verbs: this.state.verbs,
                 adjs: this.state.adjs,
@@ -193,6 +172,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
     onSubmit = async () => {
         await this.addDocument();
+        this.props.getGrammars('grammars_N3');
         this.props.navigation.goBack(null);
     }
 
@@ -209,12 +189,10 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack(null)}
-                        style={{ width: '100%', height: 20, justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <Text>BACK</Text>
-                    </TouchableOpacity>
+                    <Header
+                        title='Grammar Screen'
+                        _backFunc={() => this.props.navigation.goBack(null)}
+                    />
                     <ScrollView>
                         <Block padding={[0, theme.sizes.base * 2]}>
 
@@ -263,7 +241,9 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
         );
     }
 }
-
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({
+    getGrammars: bindActionCreators(thunkGrammarFromFireBase, dispatch),
+});
 const styles = StyleSheet.create({
     styleSafeAreaView: {
         flex: 1,
@@ -299,4 +279,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null, null)(AddingGrammarScreen);
+export default connect(null, mapDispatchToProps)(AddingGrammarScreen);

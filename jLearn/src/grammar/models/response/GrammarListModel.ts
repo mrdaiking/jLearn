@@ -1,7 +1,8 @@
-import { GrammarModel } from "../interface";
+// import { GrammarModel } from "../interface";
+// interface GrammarListModel {
+//     grammars?: Array<GrammarModel>;
+// }
 
-interface GrammarListModel {
-    grammars?: Array<GrammarModel>
-}
-
-export { GrammarListModel };
+// export {
+//     GrammarListModel
+// }

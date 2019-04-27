@@ -5,7 +5,7 @@ import {
 } from "../store/actionConstants";
 import { GrammarsState } from "../models/interface";
 import { GetGrammarsActionsTypes } from "./type";
-import { GrammarListModel } from "../models/response";
+// import { GrammarListModel } from "../models/response";
 
 const initialState: GrammarsState = {
     grammars: [],
@@ -21,9 +21,10 @@ export function grammarsReducer(
                 ...state
             }
         case GET_GRAMMARS_ACTION_SUCCESS:
+            console.log("--REDUCER--", action.payload)
             return {
                 ...state,
-                ...action.payload
+                grammars: action.payload
             }
         case GET_GRAMMARS_ACTION_FAILURE:
             return {
