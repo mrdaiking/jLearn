@@ -96,10 +96,13 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     }
 
     async _onRefresh() {
+        this.setState({
+            isLoading: true
+        })
         await this.props.getGrammars('grammars_N3');
         setTimeout(() => {
             this.setState({
-                isLoading: true
+                isLoading: false
             })
         }, 5000)
 
@@ -117,10 +120,10 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
                 style={{ backgroundColor: 'transparent' }}
                 data={newbunpoList}
                 initialScrollIndex={0}
-                // refreshing={this.state.isLoading}
+                refreshing={this.state.isLoading}
                 keyExtractor={(item: any, index: number) => index.toString()}
                 renderItem={this.renderItemList}
-            // onRefresh={() => this._onRefresh()}
+                onRefresh={() => this._onRefresh()}
             />
         )
     }
