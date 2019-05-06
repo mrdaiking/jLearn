@@ -128,8 +128,6 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         )
     }
 
-
-
     render() {
         console.log('---THE PROPS---', this.props.grammars)
         return (
@@ -174,7 +172,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#F8F8F8",
+        backgroundColor: "#F6F6F6",
     },
     content: {
         flex: 1,

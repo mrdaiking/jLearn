@@ -23,7 +23,7 @@ export default function GrammarCard(props: Props) {
     function renderNoun() {
         return props.data.head.noun ?
             <View style={{ backgroundColor: '#FC3D39', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
-                <Text>{props.data.head.noun}</Text>
+                <Text numberOfLines={1}>{props.data.head.noun}</Text>
             </View>
             : null;
 
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         width: '100%',
         minHeight: 100,
         flexDirection: 'row',
-        backgroundColor: '#ECDCDC',
+        backgroundColor: '#FFFFFF',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: 10,
