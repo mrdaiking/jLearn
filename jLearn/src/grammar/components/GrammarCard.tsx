@@ -6,11 +6,13 @@ import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
     data?: any,
+    index?: any,
     _onDeleteFunc(): void
 }
 
 export default function GrammarCard(props: Props) {
     function renderVerbs() {
+        console.log('--DATA--', props.data)
         return props.data.head.verbs.length !== 0 ?
             props.data.head.verbs.map((item: any) => {
                 return <View style={{ backgroundColor: '#FED958', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
@@ -73,6 +75,9 @@ export default function GrammarCard(props: Props) {
     }
     return (
         <TouchableOpacity style={styles.card}>
+            <View>
+                <Text style={{ color: 'red' }}>{props.index + 1}</Text>
+            </View>
             <View style={{ flex: 1, backgroundColor: 'transparent' }}>
                 <View style={{ flex: 1, flexDirection: 'row', }}>
                     <View style={styles.headContainer}>

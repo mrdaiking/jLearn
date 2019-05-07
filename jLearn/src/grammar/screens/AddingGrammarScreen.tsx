@@ -234,7 +234,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     addDocument = () => {
         let { verbs, adjs, noun, mains, mean, tails, category, image, examples, usage } = this.state;
         let dataSending = {
-            createTime: moment().millisecond(),
+            createTime: moment().valueOf(),
             head: {
                 verbs,
                 adjs,

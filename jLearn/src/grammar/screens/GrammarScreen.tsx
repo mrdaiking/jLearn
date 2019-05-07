@@ -90,6 +90,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
             <GrammarCard
                 data={grammar.item}
                 key={grammar.index}
+                index={grammar.index}
                 _onDeleteFunc={() => this._deleteDocument(grammar.item.id)}
             />
         )
