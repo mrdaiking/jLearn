@@ -54,7 +54,8 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     }
 
     async componentDidMount() {
-        await this.props.getGrammars('grammars_N3');
+        console.log("LEVELS", this.props.navigation.getParam('level'))
+        await this.props.getGrammars(this.props.navigation.getParam('level'));
         this.setState({
             bunpoList: this.props.grammars
         })

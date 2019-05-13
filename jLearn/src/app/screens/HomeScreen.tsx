@@ -65,11 +65,11 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
                         </View>
                         <ContentCard
                             title='文法'
-                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen')}
+                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen', { level: 'grammars_N3' })}
                         />
                         <ContentCard
                             title='漢字'
-                            _onPressFunc={() => alert('Smooth')}
+                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen', { level: 'grammars_N2' })}
                         />
                         <ContentCard
                             title='言葉'

@@ -54,7 +54,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     unsubscribe: any;
     constructor(props: AddingGrammarScreenProps) {
         super(props);
-        this.aref = firebase.firestore().collection('grammars_N3');
+        this.aref = firebase.firestore().collection('grammars_N2');
         this.unsubscribe = null;
         this.state = {
             isLoading: false,
@@ -254,7 +254,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
     onSubmit = async () => {
         await this.addDocument();
-        this.props.getGrammars('grammars_N3');
+        this.props.getGrammars('grammars_N2');
         this.props.navigation.goBack(null);
     }
 
