@@ -5,9 +5,11 @@ import { theme } from "../../app/constants";
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
+    isCard: boolean
     data?: any,
     index?: any,
-    _onDeleteFunc(): void
+    _onDeleteFunc(): void,
+    _onTouch(): void
 }
 
 export default function GrammarCard(props: Props) {
@@ -16,7 +18,7 @@ export default function GrammarCard(props: Props) {
         return props.data.head.verbs.length !== 0 ?
             props.data.head.verbs.map((item: any) => {
                 return <View style={{ backgroundColor: '#FED958', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
-                    <Text>{item.value}</Text>
+                    <Text style={props.isCard ? { fontSize: 13 } : { fontSize: 20 }}>{item.value}</Text>
                 </View>
             })
             : null;
@@ -73,40 +75,68 @@ export default function GrammarCard(props: Props) {
             </View>
             : null;
     }
-    return (
-        <TouchableOpacity style={styles.card}>
-            <View>
-                <Text style={{ color: 'red' }}>{props.index + 1}</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-                <View style={{ flex: 1, flexDirection: 'row', }}>
-                    <View style={styles.headContainer}>
-                        {renderVerbs()}
-                        {renderNoun()}
-                        {renderAdjs()}
-                    </View>
-                    <View style={styles.mainContainer}>
-                        {renderMain()}
-                    </View>
-                    {
-                        renderTails()
-                    }
 
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
-                    <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{props.data.mean}</Text>
-                </View>
-            </View>
-            <TouchableOpacity style={styles.groupButton}
-                onPress={props._onDeleteFunc}
+    function _renderContent(isCard: boolean) {
+        return isCard ?
+            <TouchableOpacity
+                style={styles.card}
+                onPress={props._onTouch}
             >
-                <IconMaterial
-                    name='delete'
-                    size={25}
-                    color="#000000"
-                />
+
+                <View>
+                    <Text style={{ color: 'red' }}>{props.index + 1}</Text>
+                </View>
+                <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', }}>
+                        <View style={styles.headContainer}>
+                            {renderVerbs()}
+                            {renderNoun()}
+                            {renderAdjs()}
+                        </View>
+                        <View style={styles.mainContainer}>
+                            {renderMain()}
+                        </View>
+                        {
+                            renderTails()
+                        }
+
+                    </View>
+                    <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                        <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{props.data.mean}</Text>
+                    </View>
+                </View>
+                <TouchableOpacity style={styles.groupButton}
+                    onPress={props._onDeleteFunc}
+                >
+                    <IconMaterial
+                        name='delete'
+                        size={25}
+                        color="#000000"
+                    />
+                </TouchableOpacity>
             </TouchableOpacity>
-        </TouchableOpacity>
+            :
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={styles.headContainer}>
+                    {renderVerbs()}
+                    {renderNoun()}
+                    {renderAdjs()}
+                </View>
+                <View style={styles.mainContainer}>
+                    {renderMain()}
+                </View>
+                {
+                    renderTails()
+                }
+
+            </View>
+        {/* <View style={{ justifyContent: 'center', alignItems: 'flex-start' }}>
+                    <Text style={{ fontStyle: 'italic' }} numberOfLines={1}>{props.data.mean}</Text>
+                </View> */}
+    }
+
+    return (
+        _renderContent(props.isCard)
     )
 }
 

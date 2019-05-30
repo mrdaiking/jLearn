@@ -13,7 +13,7 @@ import { thunkGrammarFromFireBase } from "../store/thunk";
 import { bindActionCreators } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { GrammarCard } from "../components";
-import { Header } from "../../app/components";
+import { HeaderCustom } from "../../app/components";
 import { GrammarModel } from "../models/interface";
 import { deleteGrammar } from "../api";
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
@@ -51,6 +51,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         this.signOut = this.signOut.bind(this);
         this.renderItemList = this.renderItemList.bind(this);
         this.renderListBunpo = this.renderListBunpo.bind(this);
+        this._moveToDetail = this._moveToDetail.bind(this);
     }
 
     async componentDidMount() {
@@ -85,14 +86,21 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         this.props.getGrammars('grammars_N3');
     }
 
+    _moveToDetail = (grammarData: any) => {
+        this.props.navigation.navigate('GrammarDetailScreen', { grammarData })
+    }
+
     renderItemList = (grammar: any) => {
         console.log("CONSOLE", grammar)
         return (
             <GrammarCard
+                isCard={true}
                 data={grammar.item}
                 key={grammar.index}
                 index={grammar.index}
                 _onDeleteFunc={() => this._deleteDocument(grammar.item.id)}
+                _onTouch={() => this._moveToDetail(grammar)}
+
             />
         )
     }
@@ -135,7 +143,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
-                    <Header
+                    <HeaderCustom
                         title='Grammar Screen'
                         _backFunc={() => this.props.navigation.goBack(null)}
                     />

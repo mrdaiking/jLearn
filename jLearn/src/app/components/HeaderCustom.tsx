@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { Component } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base'
 
-import { theme } from '../../app/constants';
+import { theme } from '../constants';
 type Props = {
     color?: any,
     style?: any,
     title?: any,
     _backFunc(): void
 }
-export default function Header(props: Props) {
+export default function HeaderCustom(props: Props) {
     return (
-        <View style={styles.container}>
+        <Header style={styles.container}>
             <TouchableOpacity
                 style={styles.buttonBack}
                 onPress={props._backFunc}>
@@ -20,7 +21,7 @@ export default function Header(props: Props) {
             <View style={styles.content}>
                 <Text>{props.title}</Text>
             </View>
-        </View>
+        </Header>
     )
 }
 
@@ -29,7 +30,7 @@ export const styles = StyleSheet.create({
         height: 60,
         width: '100%',
         flexDirection: 'row',
-        backgroundColor: '#F6F6F6',
+        backgroundColor: '#FFFFFF',
         paddingRight: 60,
         shadowColor: '#000000',
         shadowOffset: { width: 0, height: 2 },

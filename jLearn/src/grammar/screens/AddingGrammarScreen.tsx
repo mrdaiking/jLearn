@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { thunkGrammarFromFireBase } from "../store/thunk";
 import moment from "moment";
-import { Header } from "../../app/components";
+import { HeaderCustom } from "../../app/components";
 import { Button } from 'react-native-elements';
 // import console = require("console");
 interface BaseScreenProps {
@@ -271,7 +271,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">
-                    <Header
+                    <HeaderCustom
                         title='Adding Screen'
                         _backFunc={() => this.props.navigation.goBack(null)}
                     />

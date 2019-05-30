@@ -6,16 +6,18 @@ type Props = {
     icon?: any,
     iconText?: any,
     _onPressFunc(): any,
-    title?: string
+    title?: string,
+    color?: any
 }
 
 export default function ContentCard(props: Props) {
     return (
-        <TouchableOpacity style={styles.container}
+        <TouchableOpacity style={[styles.container, { backgroundColor: props.color }]}
             onPress={props._onPressFunc}
         >
             <View style={styles.titleStyle}>
                 <Text style={styles.textStyle}>{props.title}</Text>
+                <Text>1000/1000</Text>
             </View>
         </TouchableOpacity>
     )
@@ -23,28 +25,32 @@ export default function ContentCard(props: Props) {
 const styles = StyleSheet.create({
     container: {
         height: 120,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#FC4C82',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        backgroundColor: '#ED5665',
         paddingVertical: 10,
-        shadowColor: '#FC4C82',
+        shadowColor: '#E7A07F',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 13,
         elevation: 2,
         marginVertical: 5,
-        borderRadius: 10
+        borderRadius: 10,
+        marginBottom: 20
     },
     titleStyle: {
         borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        padding: 15
 
     },
     textStyle: {
         fontFamily: 'Helvetica',
         fontSize: 25,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: "#FFFFFF",
+        marginBottom: 5
 
     }
 })
