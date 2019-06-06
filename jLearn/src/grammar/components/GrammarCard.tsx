@@ -13,39 +13,43 @@ type Props = {
 }
 
 export default function GrammarCard(props: Props) {
+    function _renderBagde(isCard: boolean, value: any, backgroundColor: string) {
+        return isCard ?
+            <View style={{ backgroundColor: backgroundColor, height: 20, borderRadius: 10, padding: 2, marginVertical: 2, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 13 }}> {value}</Text>
+            </View>
+            :
+            <View style={{ backgroundColor: backgroundColor, height: 30, borderRadius: 15, padding: 2, marginVertical: 2, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 20 }}>{value}</Text>
+            </View>
+    }
     function renderVerbs() {
-        console.log('--DATA--', props.data)
         return props.data.head.verbs.length !== 0 ?
             props.data.head.verbs.map((item: any) => {
-                return <View style={{ backgroundColor: '#FED958', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
-                    <Text style={props.isCard ? { fontSize: 13 } : { fontSize: 20 }}>{item.value}</Text>
-                </View>
+                return _renderBagde(props.isCard, item.value, '#FED958');
             })
             : null;
-
     }
     function renderNoun() {
         return props.data.head.noun ?
-            <View style={{ backgroundColor: '#FC3D39', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
-                <Text numberOfLines={1}>{props.data.head.noun}</Text>
-            </View>
+            _renderBagde(props.isCard, props.data.head.noun, '#FC3D39')
             : null;
 
     }
     function renderAdjs() {
         return props.data.head.adjs ?
             props.data.head.adjs.map((item: any) => {
-                return <View style={{ backgroundColor: '#2ED5FA', height: 20, borderRadius: 10, padding: 2, marginVertical: 2 }}>
-                    <Text>{item.value}</Text>
-                </View>
+                return _renderBagde(props.isCard, item.value, '#2ED5FA')
             }) : null;
     }
     function renderTails() {
         return props.data.tails && props.data.tails.length !== 0 ?
             <View style={styles.tailContainer}>
                 {
-                    props.data.tails.map((item: any) => {
-                        return <Text>{item.value}</Text>
+                    props.data.tails.map((tail: any) => {
+                        return (
+                            <Text style={{ fontSize: props.isCard ? 13 : 20 }}>{tail.value}</Text>
+                        )
                     })
                 }
             </View>
@@ -61,7 +65,10 @@ export default function GrammarCard(props: Props) {
                 />
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                     {props.data.mains.map((item: any) => {
-                        return <Text style={{ fontWeight: 'bold' }}>{item.value}</Text>
+                        return props.isCard ?
+                            <Text style={{ fontWeight: 'bold' }}>{item.value}</Text>
+                            :
+                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{item.value}</Text>
                     })}
                 </View>
                 {
@@ -81,6 +88,7 @@ export default function GrammarCard(props: Props) {
             <TouchableOpacity
                 style={styles.card}
                 onPress={props._onTouch}
+                key={props.index}
             >
 
                 <View>

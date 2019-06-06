@@ -5,30 +5,43 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
-import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import { ContentCard, LevelDropBox } from "../components";
-// import console = require("console");
+import { AppState } from "../../app/store";
+import { thunkGetLevel } from "../store/system/thunk";
+import { thunkGrammarFromFireBase } from '../../grammar/store/thunk';
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { connect } from "react-redux";
+import { GrammarsState } from '../../grammar/models/interface';
+
+
+interface AppProps {
+    currentLevel: string,
+    grammars: GrammarsState
+}
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
 }
 
-interface DispatchInjectedProps {
 
+interface DispatchInjectedProps {
+    getLevel: typeof thunkGetLevel,
+    getGrammar: typeof thunkGrammarFromFireBase
 }
 
 interface StateInjectedProps {
 
 }
 
-interface HomeScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps {
+interface HomeScreenProps extends DispatchInjectedProps, StateInjectedProps, BaseScreenProps, AppProps {
 
 }
 
 interface HomeScreenState {
     isLoading: boolean,
     bunpoList: any[],
-    level: string
+    level: string,
 }
 
 class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
@@ -46,6 +59,7 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
         }
         this.signOut = this.signOut.bind(this);
         this._getLevel = this._getLevel.bind(this);
+        this._getLevelFromLocal = this._getLevelFromLocal.bind(this);
         this.levels = [
             { value: 'N1' },
             { value: 'N2' },
@@ -57,19 +71,38 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
 
     signOut = () => {
         firebase.auth().signOut().then((result) => {
-            console.log("RESULt LOGGOUT", result)
+            // console.log("RESULt LOGGOUT", result)
         }).catch(error => {
-            console.log("ERROR LOGOUT", error)
+            // console.log("ERROR LOGOUT", error)
         })
     }
 
-    _getLevel = (level: any) => {
-        this.setState({
+    _getLevelFromLocal = async () => {
+        await this.props.getLevel('N3');
+    }
+
+    _getLevel = async (level: any) => {
+        await this.setState({
             level
         });
+        await this.props.getLevel(this.state.level);
+        this.props.getGrammar(this.props.currentLevel);
+    }
+
+    async componentWillMount() {
+        await this._getLevelFromLocal();
+    }
+
+    componentDidMount() {
+        // console.log('---CURRENT-LEVEL---', this.props.currentLevel)
+    }
+
+    _getLength = (list: any): number => {
+        return list && list.length;
     }
     render() {
-        console.log("AREF DID", this.aref)
+        // console.log("AREF DID", this.aref)
+        // console.log("---GRAMMARS---", this.props.grammars)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
@@ -88,12 +121,13 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
                     <ScrollView style={styles.contentContainer}>
                         <ContentCard
                             title='Grammar'
-                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen', { level: 'grammars_N3' })}
+                            count={this._getLength(this.props.grammars)}
+                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen')}
                             color={'#ED5565'}
                         />
                         <ContentCard
                             title='Kanji'
-                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen', { level: 'grammars_N2' })}
+                            _onPressFunc={() => { }}
                             color={'#FFCE54'}
                         />
                         <ContentCard
@@ -112,6 +146,17 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
         );
     }
 }
+const mapStateToProps = (state: AppState) => ({
+    currentLevel: state.system.level,
+    grammars: state.grammar.grammars
+});
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({
+    getLevel: bindActionCreators(thunkGetLevel, dispatch),
+    getGrammar: bindActionCreators(thunkGrammarFromFireBase, dispatch)
+});
+
+
 
 const styles = StyleSheet.create({
     styleSafeAreaView: {
@@ -147,4 +192,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(null, null)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

@@ -14,27 +14,14 @@ interface Props {
 }
 
 export default function AccordionCustomHeaderContent(props: Props) {
-    function _renderContent(item: any) {
-        return (
-            <Text
-                style={{
-                    backgroundColor: "#e3f1f1",
-                    padding: 10,
-                    fontStyle: "italic",
-                }}
-            >
-                {'Example: ' + item.content}
-            </Text>
-        );
-    }
-
     return (
         <View style={{ width: '100%' }}>
             {
-                props.examples && props.examples.map((item: any) => {
+                props.examples && props.examples.map((item: any, index: number) => {
                     return <AccordionCard
+                        index={index}
                         title={item.value}
-                    // content={item.content}
+                        content={item.valueVN}
                     />
                 })
             }

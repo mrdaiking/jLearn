@@ -9,8 +9,8 @@ export const thunkLogginWithEmailAndPassword = (
     email: string,
     password: string
 ): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
-    console.log('--LOG-THUNK--', email)
-    console.log('--LOG-THUNK--', password)
+    // console.log('--LOG-THUNK--', email)
+    // console.log('--LOG-THUNK--', password)
     try {
         dispatch(loginWithEmailAndPasswordRequest(email, password));
         const response = await SessionServices.loginEmailAndPassword(email, password);
@@ -19,7 +19,7 @@ export const thunkLogginWithEmailAndPassword = (
         } else {
             dispatch(loginWithEmailAndPasswordFailure());
         }
-        console.log('--LOG-RES-THUNK--', response)
+        // console.log('--LOG-RES-THUNK--', response)
     } catch (error) {
         dispatch(loginWithEmailAndPasswordFailure());
     }

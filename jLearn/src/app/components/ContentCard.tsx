@@ -7,7 +7,8 @@ type Props = {
     iconText?: any,
     _onPressFunc(): any,
     title?: string,
-    color?: any
+    color?: any,
+    count?: number
 }
 
 export default function ContentCard(props: Props) {
@@ -17,7 +18,7 @@ export default function ContentCard(props: Props) {
         >
             <View style={styles.titleStyle}>
                 <Text style={styles.textStyle}>{props.title}</Text>
-                <Text>1000/1000</Text>
+                <Text>{props.count}</Text>
             </View>
         </TouchableOpacity>
     )

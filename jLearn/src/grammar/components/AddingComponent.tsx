@@ -75,7 +75,6 @@ export default function AddingComponent(props: Props) {
             cate: props.type,
             value
         }
-        console.log('--NAME_TYPE--', newValue)
 
         // if (validateDataInput(newValue.nameType, newValue.value)) {
         //     await props.addValue(newValue);
@@ -114,7 +113,6 @@ export default function AddingComponent(props: Props) {
     }
 
     function renderButton() {
-        console.log('IS LAST---', props.isLast)
         return props.isLast ?
             <TouchableOpacity style={styles.button}
                 onPress={() => addNew()}

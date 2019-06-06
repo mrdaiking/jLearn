@@ -21,7 +21,7 @@ export function grammarsReducer(
                 ...state
             }
         case GET_GRAMMARS_ACTION_SUCCESS:
-            console.log("--REDUCER--", action.payload)
+            // console.log("--REDUCER--", action.payload)
             return {
                 ...state,
                 grammars: action.payload

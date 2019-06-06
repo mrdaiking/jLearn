@@ -5,12 +5,15 @@ import {
     SystemState,
     SystemActionTypes,
     UPDATE_SESSION
-} from './types'
+} from './types';
+import { GET_LEVEL_ACTION_REQUEST, GET_LEVEL_ACTION_SUCCESS, GET_LEVEL_ACTION_FAILURE } from './systemActionConstant';
+// import console = require('console');
 
 const initialState: SystemState = {
     loggedIn: false,
     session: '',
-    userName: ''
+    userName: '',
+    level: 'N3'
 }
 
 export function systemReducer(
@@ -22,6 +25,17 @@ export function systemReducer(
             return {
                 ...state,
                 ...action.payload
+            }
+        }
+        case GET_LEVEL_ACTION_REQUEST: {
+            return {
+                ...state,
+            }
+        }
+        case GET_LEVEL_ACTION_SUCCESS: {
+            return {
+                ...state,
+                level: action.payload
             }
         }
         default:

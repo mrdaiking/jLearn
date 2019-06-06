@@ -80,14 +80,13 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     componentWillMount() {
-        console.log("AREF WILL", this.aref)
     }
 
     signOut = () => {
         firebase.auth().signOut().then((result) => {
-            console.log("RESULt LOGGOUT", result)
+            // console.log("RESULt LOGGOUT", result)
         }).catch(error => {
-            console.log("ERROR LOGOUT", error)
+            // console.log("ERROR LOGOUT", error)
         })
     }
     updateDocument = () => {
@@ -96,7 +95,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
 
     updateValue = (value: any) => {
         let index = this.state.verbs.findIndex((item) => item.nameType == value.nameType)
-        console.log('---UPDATE--INDEX--', index)
+        // console.log('---UPDATE--INDEX--', index)
 
     }
 
@@ -134,7 +133,6 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             default:
                 break;
         }
-        console.log('---UPDATE--FI--', filteredData)
     }
 
 
@@ -172,7 +170,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     renderItemList = (verb: any) => {
-        console.log('---Render Item--', verb)
+        // console.log('---Render Item--', verb)
         return (
             <ItemCard
                 type={''}
@@ -218,7 +216,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     renderList = (type: string) => {
-        console.log('---TYPe---', type)
+        // console.log('---TYPe---', type)
         return (
             <FlatList
                 style={{ backgroundColor: 'transparent' }}
@@ -248,7 +246,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
             examples,
             usage
         }
-        console.log('---SENDING DATA---', dataSending)
+        // console.log('---SENDING DATA---', dataSending)
         this.aref.add(dataSending);
     }
 
@@ -267,7 +265,7 @@ class AddingGrammarScreen extends React.Component<AddingGrammarScreenProps, Gram
     }
 
     render() {
-        console.log('---THE PROPS---', this.props)
+        // console.log('---THE PROPS---', this.props)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <KeyboardAvoidingView style={styles.container} behavior="padding">

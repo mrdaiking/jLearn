@@ -20,7 +20,7 @@ export function authenticationReducer(
             }
         }
         case LOGIN_ACTION_REQUEST: {
-            console.log('--IN REDUCER--', action.payload)
+            // console.log('--IN REDUCER--', action.payload)
             return {
                 ...state,
                 ...action.payload

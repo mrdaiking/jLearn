@@ -28,7 +28,6 @@ export default function ItemCard(props: Props) {
                 break;
         }
     }
-    console.log('COLOR---', getColor(props.type))
     return (
         <View style={[styles.card, { backgroundColor: getColor(props.type) }]}>
             <View style={styles.type}>

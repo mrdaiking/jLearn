@@ -9,8 +9,6 @@ export function registerAccount(user: UserRegister) {
 }
 
 export function loginWithEmailAndPasswordRequest(email: string, password: string) {
-    console.log("---LOG--IN-ACTION--", email)
-    console.log("---LOG--IN-ACTION--", password)
     return {
         type: LOGIN_ACTION_REQUEST,
         payload: {
@@ -21,14 +19,12 @@ export function loginWithEmailAndPasswordRequest(email: string, password: string
 }
 
 export function loginWithEmailAndPasswordSuccess() {
-    console.log("---LOG--IN-ACTION--SUCESS")
     return {
         type: LOGIN_ACTION_SUCCESS,
     }
 }
 
 export function loginWithEmailAndPasswordFailure() {
-    console.log("---LOG--IN-ACTION--FAILE")
     return {
         type: LOGIN_ACTION_FAILURE,
     }

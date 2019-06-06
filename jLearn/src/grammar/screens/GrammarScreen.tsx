@@ -18,7 +18,8 @@ import { GrammarModel } from "../models/interface";
 import { deleteGrammar } from "../api";
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 interface AppProps {
-    grammars: GrammarsState
+    grammars: GrammarsState,
+    currentLevel: string
 }
 interface BaseScreenProps {
     navigation: NavigationScreenProp<NavigationNavigateActionPayload>
@@ -55,9 +56,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     }
 
     async componentDidMount() {
-        console.log("LEVELS", this.props.navigation.getParam('level'))
-        await this.props.getGrammars(this.props.navigation.getParam('level'));
-        this.setState({
+        await this.setState({
             bunpoList: this.props.grammars
         })
 
@@ -71,9 +70,9 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
 
     signOut = () => {
         firebase.auth().signOut().then((result) => {
-            console.log("RESULt LOGGOUT", result)
+            // console.log("RESULt LOGGOUT", result)
         }).catch(error => {
-            console.log("ERROR LOGOUT", error)
+            // console.log("ERROR LOGOUT", error)
         })
     }
 
@@ -82,22 +81,22 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     }
 
     _deleteDocument = async (id: any) => {
-        await deleteGrammar(id);
-        this.props.getGrammars('grammars_N3');
+        await deleteGrammar(id, this.props.currentLevel);
+        this.props.getGrammars(this.props.currentLevel);
     }
 
     _moveToDetail = (grammarData: any) => {
         this.props.navigation.navigate('GrammarDetailScreen', { grammarData })
     }
 
-    renderItemList = (grammar: any) => {
-        console.log("CONSOLE", grammar)
+    renderItemList = (grammar: any, index: any) => {
+        // console.log("CONSOLE", grammar)
         return (
             <GrammarCard
                 isCard={true}
                 data={grammar.item}
                 key={grammar.index}
-                index={grammar.index}
+                index={index}
                 _onDeleteFunc={() => this._deleteDocument(grammar.item.id)}
                 _onTouch={() => this._moveToDetail(grammar)}
 
@@ -109,7 +108,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         this.setState({
             isLoading: true
         })
-        await this.props.getGrammars('grammars_N3');
+        await this.props.getGrammars(this.props.currentLevel);
         setTimeout(() => {
             this.setState({
                 isLoading: false
@@ -123,7 +122,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         let newbunpoList = bunpoList.sort((first: any, second: any) => {
             return second.createTime - first.createTime;
         })
-        console.log('---SORTED BUNPO---', newbunpoList)
+        // console.log('---SORTED BUNPO---', newbunpoList)
         return (
             <FlatList
                 horizontal={false}
@@ -131,15 +130,16 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
                 data={newbunpoList}
                 initialScrollIndex={0}
                 refreshing={this.state.isLoading}
-                keyExtractor={(item: any, index: number) => index.toString()}
-                renderItem={this.renderItemList}
+                keyExtractor={(item: any, index: number) => item.index}
+                renderItem={(item) => this.renderItemList(item, item.index)}
                 onRefresh={() => this._onRefresh()}
             />
         )
     }
 
     render() {
-        console.log('---THE PROPS---', this.props.grammars)
+        // console.log('---THE PROPS---', this.props.grammars)
+        // console.log('---THE CUURRENT--LEVEL---', this.props.currentLevel)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
@@ -167,7 +167,8 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     }
 }
 const mapStateToProps = (state: AppState) => ({
-    grammars: state.grammar
+    grammars: state.grammar,
+    currentLevel: state.system.level
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchInjectedProps => ({

@@ -42,9 +42,7 @@ class LoadingScreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        console.log("---SESSION---LOG---", this.props.authentication.user)
         firebase.auth().onAuthStateChanged(user => {
-            console.log("---SESSION---LOG-FIREBASE---", user)
             this.props.navigation.navigate(user ? 'App' : 'Auth')
         })
     }

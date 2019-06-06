@@ -3,7 +3,7 @@
  * Date: 2019/03/18
  */
 import * as React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator, ScrollView } from "react-native";
 import { NavigationScreenProp, NavigationNavigateActionPayload, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
@@ -57,14 +57,15 @@ class GrammarDetailScreen extends React.Component<GrammarDetailScreenProps, Gram
 
     async componentDidMount() {
         let bunpoTrans: any = this.props.navigation.getParam('grammarData');
-        console.log('--GRAMMAR DETAIL--', bunpoTrans);
+        // console.log('--GRAMMAR DETAIL--', bunpoTrans);
         await this.setState({
             bunpoDetail: bunpoTrans
         })
-        console.log('--GRAMMAR DETAIL--STATE---', this.state.bunpoDetail);
+        // console.log('--GRAMMAR DETAIL--STATE---', this.state.bunpoDetail);
     }
 
     render() {
+        console.log('---LOG-GRAMMARS-DETAIL---', this.state.bunpoDetail && this.state.bunpoDetail.item.examples)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
                 <View style={styles.container}>
@@ -72,8 +73,8 @@ class GrammarDetailScreen extends React.Component<GrammarDetailScreenProps, Gram
                         title='Grammar Detail'
                         _backFunc={() => this.props.navigation.goBack(null)}
                     />
-                    <View style={{ flex: 1 }}>
-                        <View style={{ justifyContent: "center", alignItems: 'center', width: '100%', height: 200 }}>
+                    <ScrollView style={{ flex: 1, padding: 15 }}>
+                        <View style={{ flex: 1 }}>
                             {this.state.bunpoDetail && <GrammarCard
                                 isCard={false}
                                 data={this.state.bunpoDetail.item || null}
@@ -84,15 +85,23 @@ class GrammarDetailScreen extends React.Component<GrammarDetailScreenProps, Gram
 
                             />}
                         </View>
-                        <View>
-                            <Text>{this.state.bunpoDetail && this.state.bunpoDetail.item.mean}</Text>
+                        {this.state.bunpoDetail && this.state.bunpoDetail.item.usage !== '' &&
+                            <View style={{ justifyContent: 'center' }}>
+                                <Text style={{ fontSize: 20 }}>Ý nghĩa</Text>
+                                <Text style={{ fontSize: 16 }}>{this.state.bunpoDetail.item.usage}</Text>
+                            </View>}
+                        <View style={{ justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 20 }}>Cách dùng</Text>
+                            <Text style={{ fontSize: 16 }}>{this.state.bunpoDetail && this.state.bunpoDetail.item.mean}</Text>
                         </View>
-                        <View style={{ width: '100%' }}>
-                            <AccordionCustomHeaderContent
-                                examples={this.state.bunpoDetail && this.state.bunpoDetail.item.examples}
-                            />
-                        </View>
-                    </View>
+                        {this.state.bunpoDetail && this.state.bunpoDetail.item.examples.length !== 0 &&
+                            <View style={{ width: '100%' }}>
+                                <Text style={{ fontSize: 20 }}>Ví dụ</Text>
+                                <AccordionCustomHeaderContent
+                                    examples={this.state.bunpoDetail.item.examples}
+                                />
+                            </View>}
+                    </ScrollView>
                 </View>
             </SafeAreaView >
         );

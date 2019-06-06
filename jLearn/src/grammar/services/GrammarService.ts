@@ -11,13 +11,13 @@ export async function getGrammars(collectionPath: any) {
         let grammarContainer: any = [];
         if (response) {
             response.forEach(function (document: any) {
-                console.log('----DOCUMENT--ID--', document.id)
+                // console.log('----DOCUMENT--ID--', document.id)
                 grammarContainer.push(document);
 
             });
         }
         const newGrammars = parseToGrammar(grammarContainer);
-        console.log('----DOCUMENT---', newGrammars);
+        // console.log('----DOCUMENT---', newGrammars);
         return newGrammars;
     } catch (error) {
         return error;
