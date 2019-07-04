@@ -58,23 +58,23 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleUtilities/AppDelegateSwizzler (5.5.0):
+  - GoogleUtilities/AppDelegateSwizzler (5.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.5.0)
-  - GoogleUtilities/Logger (5.5.0):
+  - GoogleUtilities/Environment (5.8.0)
+  - GoogleUtilities/Logger (5.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.5.0):
+  - GoogleUtilities/MethodSwizzler (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.5.0):
+  - GoogleUtilities/Network (5.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.5.0)"
-  - GoogleUtilities/Reachability (5.5.0):
+  - "GoogleUtilities/NSData+zlib (5.8.0)"
+  - GoogleUtilities/Reachability (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.5.0):
+  - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
   - "gRPC-C++ (0.0.5)":
     - "gRPC-C++/Implementation (= 0.0.5)"
@@ -92,14 +92,14 @@ PODS:
     - gRPC-Core/Interface (= 1.14.0)
     - nanopb (~> 0.3)
   - gRPC-Core/Interface (1.14.0)
-  - GTMSessionFetcher/Core (1.2.1)
+  - GTMSessionFetcher/Core (1.2.2)
   - leveldb-library (1.20)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Protobuf (3.7.0)
+  - Protobuf (3.8.0)
   - yoga (0.59.1.React)
 
 DEPENDENCIES:
@@ -141,15 +141,15 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 58043a1c2d2c91efdaa8d8f385cdbaa2ce750cfe
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
-  GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
+  GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   "gRPC-C++": 19eec1ffd34de29453f5fab5b4697ad0f240ad51
   gRPC-Core: f4836515817c0eb479aeeb9cc27c91c4ba62a9f6
-  GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
+  GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+  Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   yoga: 128daf064cacaede0c3bb27424b6b4c71052e6cd
 
-PODFILE CHECKSUM: 2a6083e7e0e8b6beb57ada6197852bd208201843
+PODFILE CHECKSUM: b312f8c8226ff93f8a61a0f79bf60641e8b3cb52
 
 COCOAPODS: 1.5.3

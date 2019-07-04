@@ -20,11 +20,11 @@
     "react-native-iphone-x-helper": "^1.2.0",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modalbox": "^1.7.1",
-    "react-native-vector-icons": "^6.4.1",
     "react-navigation": "^3.4.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "tslint": "^5.14.0"
+    "tslint": "^5.14.0",
+    "wanakana": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -42,6 +42,7 @@
     "jest": "^24.5.0",
     "metro-react-native-babel-preset": "^0.53.1",
     "react-native-typescript-transformer": "^1.2.12",
+    "react-native-vector-icons": "^6.6.0",
     "react-redux": "^6.0.1",
     "react-test-renderer": "16.8.3",
     "redux": "^4.0.1",

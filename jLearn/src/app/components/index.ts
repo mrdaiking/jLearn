@@ -10,5 +10,5 @@ export {
     Text,
     ContentCard,
     HeaderCustom,
-    LevelDropBox
+    LevelDropBox,
 }

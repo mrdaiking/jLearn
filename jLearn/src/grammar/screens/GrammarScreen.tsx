@@ -17,6 +17,8 @@ import { HeaderCustom } from "../../app/components";
 import { GrammarModel } from "../models/interface";
 import { deleteGrammar } from "../api";
 import IconMaterial from 'react-native-vector-icons/MaterialIcons';
+import { SearchBar } from 'react-native-elements';
+
 interface AppProps {
     grammars: GrammarsState,
     currentLevel: string
@@ -40,6 +42,7 @@ interface GrammarScreenProps extends DispatchInjectedProps, StateInjectedProps, 
 interface GrammarcreenState {
     isLoading: boolean,
     bunpoList: any,
+    searchValue: string,
 }
 
 class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenState> {
@@ -47,12 +50,14 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         super(props);
         this.state = {
             isLoading: false,
-            bunpoList: []
+            bunpoList: [],
+            searchValue: ''
         }
         this.signOut = this.signOut.bind(this);
-        this.renderItemList = this.renderItemList.bind(this);
-        this.renderListBunpo = this.renderListBunpo.bind(this);
+        this._renderItemList = this._renderItemList.bind(this);
+        this._renderListBunpo = this._renderListBunpo.bind(this);
         this._moveToDetail = this._moveToDetail.bind(this);
+        this._searchFilterData = this._searchFilterData.bind(this);
     }
 
     async componentDidMount() {
@@ -89,7 +94,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         this.props.navigation.navigate('GrammarDetailScreen', { grammarData })
     }
 
-    renderItemList = (grammar: any, index: any) => {
+    _renderItemList = (grammar: any, index: any) => {
         // console.log("CONSOLE", grammar)
         return (
             <GrammarCard
@@ -117,9 +122,11 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
 
     }
 
-    renderListBunpo = (bunpoList: any) => {
-        console.log('---LIST BUNPO---', this.state.bunpoList.grammars)
-        let newbunpoList = bunpoList.sort((first: any, second: any) => {
+    _renderListBunpo = (bunpoList: any) => {
+        console.log('---LIST BUNPO---', bunpoList)
+        this._searchFilterData(this.state.searchValue);
+        // console.log('---SEARCH_VALUVE---', bunpoList)
+        let newbunpoList = bunpoList.grammars.sort((first: any, second: any) => {
             return second.createTime - first.createTime;
         })
         // console.log('---SORTED BUNPO---', newbunpoList)
@@ -131,12 +138,36 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
                 initialScrollIndex={0}
                 refreshing={this.state.isLoading}
                 keyExtractor={(item: any, index: number) => item.index}
-                renderItem={(item) => this.renderItemList(item, item.index)}
+                renderItem={(item) => this._renderItemList(item, item.index)}
                 onRefresh={() => this._onRefresh()}
             />
         )
     }
 
+    componentWillUpdate() {
+    }
+
+    _findMainValue = (item: any, searchValue: string) => {
+        const a = '塩';
+        const b = 'しお';
+        console.log('---MAIN-VALUE---');
+        //const result = item.mains.filter((element: any) => wanakana.toRomaji(element.value) === wanakana.toRomaji(searchValue.toString()));
+        // console.log('---MAIN-VALUE--RESULT--', result)
+
+        return true;
+    }
+
+
+
+
+    _searchFilterData = (searchValue: string) => {
+        console.log('---SEARCH_VALUVE---', searchValue)
+        let fillteredGrammars = this.state.bunpoList && this.state.bunpoList.grammars.filter((item: any) => this._findMainValue(item, searchValue));
+        let contentFiltered = fillteredGrammars.fillter
+        console.log('---FILLTERDATA---', fillteredGrammars)
+
+
+    }
     render() {
         // console.log('---THE PROPS---', this.props.grammars)
         // console.log('---THE CUURRENT--LEVEL---', this.props.currentLevel)
@@ -147,17 +178,27 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
                         title='Grammar Screen'
                         _backFunc={() => this.props.navigation.goBack(null)}
                     />
+                    <SearchBar
+                        containerStyle={{ width: '100%' }}
+                        placeholder="Type Here..."
+                        onChangeText={(searchValue) => {
+                            this.setState({ searchValue });
+                            this._searchFilterData(searchValue);
+                        }}
+                        value={this.state.searchValue}
+                        lightTheme={true}
+                    />
                     <View style={styles.content}>
-                        {this.props.grammars.grammars.length !== 0 ? this.renderListBunpo(this.props.grammars.grammars) : <ActivityIndicator />}
+                        {this.state.bunpoList && this.state.bunpoList.length !== 0 ? this._renderListBunpo(this.state.bunpoList) : <ActivityIndicator />}
 
                     </View>
                     <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('AddingGrammarScreen')}
+                        onPress={() => this.props.navigation.navigate('AddingGrammarScreen', { currentLevel: this.props.currentLevel })}
                         style={styles.addNewGrammarBtn}
                     >
                         <IconMaterial
                             name='add'
-                            size={40}
+                            size={30}
                             color="#FFFFFF"
                         />
                     </TouchableOpacity>
@@ -194,9 +235,9 @@ const styles = StyleSheet.create({
     },
     addNewGrammarBtn: {
         position: 'absolute',
-        width: 70,
-        height: 70,
-        borderRadius: 35,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
         backgroundColor: '#2E8B57',
         bottom: 15,
         right: 15,
