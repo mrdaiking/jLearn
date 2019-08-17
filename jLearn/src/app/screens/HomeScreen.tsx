@@ -95,6 +95,7 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
 
     componentDidMount() {
         // console.log('---CURRENT-LEVEL---', this.props.currentLevel)
+
     }
 
     _getLength = (list: any): number => {
@@ -122,7 +123,7 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
                         <ContentCard
                             title='Grammar'
                             count={this._getLength(this.props.grammars)}
-                            _onPressFunc={() => this.props.navigation.navigate('GrammarScreen')}
+                            _onPressFunc={() => this._getLength(this.props.grammars) > 0 && this.props.navigation.navigate('GrammarScreen')}
                             color={'#ED5565'}
                         />
                         <ContentCard

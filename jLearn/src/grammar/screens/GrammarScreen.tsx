@@ -49,22 +49,30 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
     constructor(props: GrammarScreenProps) {
         super(props);
         this.state = {
-            isLoading: false,
+            isLoading: true,
             bunpoList: [],
             searchValue: ''
         }
-        this.signOut = this.signOut.bind(this);
+        this._getGrammarsFromRedux = this._getGrammarsFromRedux.bind(this);
         this._renderItemList = this._renderItemList.bind(this);
         this._renderListBunpo = this._renderListBunpo.bind(this);
         this._moveToDetail = this._moveToDetail.bind(this);
         this._searchFilterData = this._searchFilterData.bind(this);
+        this.signOut = this.signOut.bind(this);
+
     }
 
     async componentDidMount() {
-        await this.setState({
-            bunpoList: this.props.grammars
-        })
+        await this._getGrammarsFromRedux(this.props.grammars)
+    }
 
+    _getGrammarsFromRedux = async (bunpoList: any) => {
+        await this.setState({
+            bunpoList: bunpoList.grammars
+        })
+        await this.setState({
+            isLoading: false
+        })
     }
 
     // shouldComponentUpdate(nextProps: any, nextState: any) {
@@ -94,6 +102,50 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         this.props.navigation.navigate('GrammarDetailScreen', { grammarData })
     }
 
+    async _onRefresh() {
+        this.setState({
+            isLoading: true
+        })
+        await this.props.getGrammars(this.props.currentLevel);
+        setTimeout(() => {
+            this.setState({
+                isLoading: false
+            })
+        }, 5000)
+    }
+
+    componentWillUpdate() {
+
+    }
+
+    //Find item which have search value
+    _findMainValue = (item: any, searchValue: string) => {
+        if (searchValue == '')
+            return true;
+        if (item && item.mains[0]) {
+            const meanValue = item.mains[0].value;
+            const isExist = meanValue.search(searchValue);
+            return isExist >= 0;
+        }
+        return false;
+    }
+
+    // Update new list bunpo after search
+    _updateAfterSearched = async (newList: any) => {
+        console.log('---UPDATE_LIST---', newList)
+        await this.setState({
+            bunpoList: newList
+        })
+    }
+
+    //Handle search feature
+    _searchFilterData = async (searchValue: string) => {
+        console.log('---SEARCH_VALUVE---', searchValue)
+        const grammarListFromRedux = this.props.grammars;
+        let fillterList = grammarListFromRedux && grammarListFromRedux.grammars.filter((item: any) => this._findMainValue(item, searchValue));
+        await this._updateAfterSearched(fillterList);
+    }
+
     _renderItemList = (grammar: any, index: any) => {
         // console.log("CONSOLE", grammar)
         return (
@@ -109,27 +161,12 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         )
     }
 
-    async _onRefresh() {
-        this.setState({
-            isLoading: true
-        })
-        await this.props.getGrammars(this.props.currentLevel);
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 5000)
-
-    }
-
     _renderListBunpo = (bunpoList: any) => {
-        console.log('---LIST BUNPO---', bunpoList)
-        this._searchFilterData(this.state.searchValue);
-        // console.log('---SEARCH_VALUVE---', bunpoList)
-        let newbunpoList = bunpoList.grammars.sort((first: any, second: any) => {
-            return second.createTime - first.createTime;
-        })
-        // console.log('---SORTED BUNPO---', newbunpoList)
+        console.log('---RENDER--BUNPO-LIST---', bunpoList)
+        let newbunpoList = bunpoList && bunpoList.length !== 1 ? bunpoList.sort((first: any, second: any) => {
+            return second.createTime - first.createTime
+        }) : bunpoList;
+        console.log('---SORTED BUNPO---', newbunpoList)
         return (
             <FlatList
                 horizontal={false}
@@ -144,32 +181,17 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         )
     }
 
-    componentWillUpdate() {
+    _renderContent = (bunpoList: any) => {
+        if (this.state.isLoading) {
+            return <ActivityIndicator />;
+        } else {
+            return bunpoList.length == 0 ?
+                <Text>No Data</Text> : this._renderListBunpo(bunpoList);
+        }
     }
 
-    _findMainValue = (item: any, searchValue: string) => {
-        const a = '塩';
-        const b = 'しお';
-        console.log('---MAIN-VALUE---');
-        //const result = item.mains.filter((element: any) => wanakana.toRomaji(element.value) === wanakana.toRomaji(searchValue.toString()));
-        // console.log('---MAIN-VALUE--RESULT--', result)
-
-        return true;
-    }
-
-
-
-
-    _searchFilterData = (searchValue: string) => {
-        console.log('---SEARCH_VALUVE---', searchValue)
-        let fillteredGrammars = this.state.bunpoList && this.state.bunpoList.grammars.filter((item: any) => this._findMainValue(item, searchValue));
-        let contentFiltered = fillteredGrammars.fillter
-        console.log('---FILLTERDATA---', fillteredGrammars)
-
-
-    }
     render() {
-        // console.log('---THE PROPS---', this.props.grammars)
+        // console.log('---LISTGRAMMAR---', this.props.grammars)
         // console.log('---THE CUURRENT--LEVEL---', this.props.currentLevel)
         return (
             <SafeAreaView style={styles.styleSafeAreaView}>
@@ -189,7 +211,7 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
                         lightTheme={true}
                     />
                     <View style={styles.content}>
-                        {this.state.bunpoList && this.state.bunpoList.length !== 0 ? this._renderListBunpo(this.state.bunpoList) : <ActivityIndicator />}
+                        {this._renderContent(this.state.bunpoList)}
 
                     </View>
                     <TouchableOpacity
