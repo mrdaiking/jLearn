@@ -1,7 +1,10 @@
 import {
     GET_GRAMMARS_ACTION_REQUEST,
     GET_GRAMMARS_ACTION_SUCCESS,
-    GET_GRAMMARS_ACTION_FAILURE
+    GET_GRAMMARS_ACTION_FAILURE,
+    RESET_GRAMMARS_ACTION_REQUEST,
+    RESET_GRAMMARS_ACTION_SUCCESS,
+    RESET_GRAMMARS_ACTION_FAILURE
 } from "../store/actionConstants";
 import { GrammarsState } from "../models/interface";
 import { GetGrammarsActionsTypes } from "./type";
@@ -29,6 +32,11 @@ export function grammarsReducer(
         case GET_GRAMMARS_ACTION_FAILURE:
             return {
                 ...state,
+            }
+        case RESET_GRAMMARS_ACTION_SUCCESS:
+            return {
+                ...state,
+                grammars: []
             }
         default:
             return state;

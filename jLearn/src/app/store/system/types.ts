@@ -30,4 +30,9 @@ type GetLevelActionFailure = {
 }
 
 
-export type SystemActionTypes = UpdateSessionAction | GetLevelActionRequest | GetLevelActionSuccess | GetLevelActionFailure;
+
+export type SystemActionTypes =
+    UpdateSessionAction |
+    GetLevelActionRequest |
+    GetLevelActionSuccess |
+    GetLevelActionFailure;

@@ -9,3 +9,15 @@ export function loginEmailAndPassword(requestData: UserLogin) {
             return error;
         })
 }
+
+export function logOut() {
+    return firebase.auth().signOut()
+        .then(() => {
+            console.log("---API--RETURN-LOGOUT--", true);
+            return true;
+        })
+        .catch(() => {
+            console.log("---API--RETURN-LOGOUT--", false);
+            return false;
+        })
+}

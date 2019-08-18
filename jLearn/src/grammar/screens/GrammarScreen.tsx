@@ -58,8 +58,6 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
         this._renderListBunpo = this._renderListBunpo.bind(this);
         this._moveToDetail = this._moveToDetail.bind(this);
         this._searchFilterData = this._searchFilterData.bind(this);
-        this.signOut = this.signOut.bind(this);
-
     }
 
     async componentDidMount() {
@@ -74,25 +72,6 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
             isLoading: false
         })
     }
-
-    // shouldComponentUpdate(nextProps: any, nextState: any) {
-    //     console.log("UNSUBSCRIBE", nextProps.grammars.grammars)
-    //     return this.props.grammars.grammars !== nextProps.grammars.grammars
-    //         || this.state.bunpoList !== nextState.bunpoList
-    // }
-
-    signOut = () => {
-        firebase.auth().signOut().then((result) => {
-            // console.log("RESULt LOGGOUT", result)
-        }).catch(error => {
-            // console.log("ERROR LOGOUT", error)
-        })
-    }
-
-    updateDocument = () => {
-
-    }
-
     _deleteDocument = async (id: any) => {
         await deleteGrammar(id, this.props.currentLevel);
         this.props.getGrammars(this.props.currentLevel);
@@ -113,11 +92,6 @@ class GrammarScreen extends React.Component<GrammarScreenProps, GrammarcreenStat
             })
         }, 5000)
     }
-
-    componentWillUpdate() {
-
-    }
-
     //Find item which have search value
     _findMainValue = (item: any, searchValue: string) => {
         if (searchValue == '')

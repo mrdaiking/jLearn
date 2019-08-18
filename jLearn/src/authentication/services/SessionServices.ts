@@ -14,3 +14,12 @@ export async function loginEmailAndPassword(email: string, password: string) {
         return error;
     }
 }
+export async function logOut() {
+    console.log('--LOG-SESSION-SERVICES--LOGOUT--')
+    try {
+        const response = await SessionAPI.logOut();
+        return response;
+    } catch (error) {
+        return error;
+    }
+}

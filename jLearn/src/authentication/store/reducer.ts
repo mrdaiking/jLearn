@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN_ACTION_REQUEST } from "../store/actionContants";
+import { REGISTER, LOGIN_ACTION_REQUEST, SIGN_OUT_ACTION_REQUEST, SIGN_OUT_ACTION_SUCCESS, SIGN_OUT_ACTION_FAILURE } from "../store/actionContants";
 import { AuthenticationState } from "../models/interface";
 import { AuthenticationActionTypes } from "./type";
 // import console = require("console");
@@ -24,6 +24,17 @@ export function authenticationReducer(
             return {
                 ...state,
                 ...action.payload
+            }
+        }
+        case SIGN_OUT_ACTION_REQUEST: {
+            return {
+                ...state
+            }
+        }
+        case SIGN_OUT_ACTION_SUCCESS: {
+            return {
+                ...state,
+                loggedIn: false
             }
         }
 

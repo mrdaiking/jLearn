@@ -1,8 +1,16 @@
 import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { loginWithEmailAndPasswordRequest, loginWithEmailAndPasswordSuccess, loginWithEmailAndPasswordFailure } from "./actions";
+import {
+    loginWithEmailAndPasswordRequest,
+    loginWithEmailAndPasswordSuccess,
+    loginWithEmailAndPasswordFailure,
+    signOutRequest,
+    signOutSuccess,
+    signOutFailure
+} from "./actions";
+import { ResetGrammarsSuccess } from '../../grammar/store/actions';
 import { AppState } from "../../app/store";
-import { loginEmailAndPassword } from "../services";
+import { loginEmailAndPassword, logOut } from "../services";
 import * as SessionServices from '../services';
 
 export const thunkLogginWithEmailAndPassword = (
@@ -22,6 +30,24 @@ export const thunkLogginWithEmailAndPassword = (
         // console.log('--LOG-RES-THUNK--', response)
     } catch (error) {
         dispatch(loginWithEmailAndPasswordFailure());
+    }
+
+};
+export const thunkLogOut = (
+): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
+    try {
+        dispatch(signOutRequest());
+        const response = await SessionServices.logOut();
+        console.log('--LOG-RES-THUNK--LOGOUT--', response)
+        if (response) {
+            dispatch(signOutSuccess());
+            dispatch(ResetGrammarsSuccess())
+        } else {
+            dispatch(signOutFailure());
+        }
+        // console.log('--LOG-RES-THUNK--', response)
+    } catch (error) {
+        dispatch(signOutFailure());
     }
 
 };
