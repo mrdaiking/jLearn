@@ -42,7 +42,7 @@ class SettingsScreen extends React.Component<Props, State> {
                 <TouchableOpacity
                     onPress={() => this.signOut()}
                     style={styles.logOutBtn}>
-                    <Text>Log out</Text>
+                    <Text>LOG OUT</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -50,7 +50,12 @@ class SettingsScreen extends React.Component<Props, State> {
 }
 const styles = StyleSheet.create({
     logOutBtn: {
-
+        width: 100,
+        height: 60,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#0AC4BA",
+        borderRadius: 10
     }
 })
 
